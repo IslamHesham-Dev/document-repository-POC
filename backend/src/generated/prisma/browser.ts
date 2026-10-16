@@ -37,3 +37,13 @@ export type Document = Prisma.DocumentModel
  * 
  */
 export type DocumentVersion = Prisma.DocumentVersionModel
+/**
+ * Model Tag
+ * 
+ */
+export type Tag = Prisma.TagModel
+/**
+ * Model DocumentTag
+ * 
+ */
+export type DocumentTag = Prisma.DocumentTagModel

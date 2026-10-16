@@ -201,6 +201,7 @@ export type DocumentWhereInput = {
   uploader?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   versions?: Prisma.DocumentVersionListRelationFilter
   currentVersion?: Prisma.XOR<Prisma.DocumentVersionNullableScalarRelationFilter, Prisma.DocumentVersionWhereInput> | null
+  tags?: Prisma.DocumentTagListRelationFilter
 }
 
 export type DocumentOrderByWithRelationInput = {
@@ -214,6 +215,7 @@ export type DocumentOrderByWithRelationInput = {
   uploader?: Prisma.UserOrderByWithRelationInput
   versions?: Prisma.DocumentVersionOrderByRelationAggregateInput
   currentVersion?: Prisma.DocumentVersionOrderByWithRelationInput
+  tags?: Prisma.DocumentTagOrderByRelationAggregateInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -230,6 +232,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   uploader?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   versions?: Prisma.DocumentVersionListRelationFilter
   currentVersion?: Prisma.XOR<Prisma.DocumentVersionNullableScalarRelationFilter, Prisma.DocumentVersionWhereInput> | null
+  tags?: Prisma.DocumentTagListRelationFilter
 }, "id" | "currentVersionId">
 
 export type DocumentOrderByWithAggregationInput = {
@@ -267,6 +270,7 @@ export type DocumentCreateInput = {
   uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
+  tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateInput = {
@@ -278,6 +282,7 @@ export type DocumentUncheckedCreateInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
@@ -289,6 +294,7 @@ export type DocumentUpdateInput = {
   uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
+  tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateInput = {
@@ -300,6 +306,7 @@ export type DocumentUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
@@ -476,6 +483,20 @@ export type DocumentUncheckedUpdateOneWithoutCurrentVersionNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutCurrentVersionInput, Prisma.DocumentUpdateWithoutCurrentVersionInput>, Prisma.DocumentUncheckedUpdateWithoutCurrentVersionInput>
 }
 
+export type DocumentCreateNestedOneWithoutTagsInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutTagsInput, Prisma.DocumentUncheckedCreateWithoutTagsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutTagsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutTagsNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutTagsInput, Prisma.DocumentUncheckedCreateWithoutTagsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutTagsInput
+  upsert?: Prisma.DocumentUpsertWithoutTagsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutTagsInput, Prisma.DocumentUpdateWithoutTagsInput>, Prisma.DocumentUncheckedUpdateWithoutTagsInput>
+}
+
 export type DocumentCreateWithoutUploaderInput = {
   id?: string
   title: string
@@ -484,6 +505,7 @@ export type DocumentCreateWithoutUploaderInput = {
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
+  tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutUploaderInput = {
@@ -494,6 +516,7 @@ export type DocumentUncheckedCreateWithoutUploaderInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutUploaderInput = {
@@ -543,6 +566,7 @@ export type DocumentCreateWithoutVersionsInput = {
   deletedAt?: Date | string | null
   uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
+  tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutVersionsInput = {
@@ -553,6 +577,7 @@ export type DocumentUncheckedCreateWithoutVersionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
+  tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutVersionsInput = {
@@ -568,6 +593,7 @@ export type DocumentCreateWithoutCurrentVersionInput = {
   deletedAt?: Date | string | null
   uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
+  tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutCurrentVersionInput = {
@@ -578,6 +604,7 @@ export type DocumentUncheckedCreateWithoutCurrentVersionInput = {
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutCurrentVersionInput = {
@@ -604,6 +631,7 @@ export type DocumentUpdateWithoutVersionsInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
+  tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutVersionsInput = {
@@ -614,6 +642,7 @@ export type DocumentUncheckedUpdateWithoutVersionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUpsertWithoutCurrentVersionInput = {
@@ -635,12 +664,74 @@ export type DocumentUpdateWithoutCurrentVersionInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
+  tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutCurrentVersionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentCreateWithoutTagsInput = {
+  id?: string
+  title: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
+  versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
+  currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
+}
+
+export type DocumentUncheckedCreateWithoutTagsInput = {
+  id?: string
+  title: string
+  uploaderId: string
+  currentVersionId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentCreateOrConnectWithoutTagsInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutTagsInput, Prisma.DocumentUncheckedCreateWithoutTagsInput>
+}
+
+export type DocumentUpsertWithoutTagsInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutTagsInput, Prisma.DocumentUncheckedUpdateWithoutTagsInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutTagsInput, Prisma.DocumentUncheckedCreateWithoutTagsInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutTagsInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutTagsInput, Prisma.DocumentUncheckedUpdateWithoutTagsInput>
+}
+
+export type DocumentUpdateWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
+  versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
+  currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
+}
+
+export type DocumentUncheckedUpdateWithoutTagsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -664,6 +755,7 @@ export type DocumentUpdateWithoutUploaderInput = {
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
+  tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutUploaderInput = {
@@ -674,6 +766,7 @@ export type DocumentUncheckedUpdateWithoutUploaderInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutUploaderInput = {
@@ -692,10 +785,12 @@ export type DocumentUncheckedUpdateManyWithoutUploaderInput = {
 
 export type DocumentCountOutputType = {
   versions: number
+  tags: number
 }
 
 export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   versions?: boolean | DocumentCountOutputTypeCountVersionsArgs
+  tags?: boolean | DocumentCountOutputTypeCountTagsArgs
 }
 
 /**
@@ -715,6 +810,13 @@ export type DocumentCountOutputTypeCountVersionsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.DocumentVersionWhereInput
 }
 
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentTagWhereInput
+}
+
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -727,6 +829,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   versions?: boolean | Prisma.Document$versionsArgs<ExtArgs>
   currentVersion?: boolean | Prisma.Document$currentVersionArgs<ExtArgs>
+  tags?: boolean | Prisma.Document$tagsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
@@ -769,6 +872,7 @@ export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   versions?: boolean | Prisma.Document$versionsArgs<ExtArgs>
   currentVersion?: boolean | Prisma.Document$currentVersionArgs<ExtArgs>
+  tags?: boolean | Prisma.Document$tagsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -786,6 +890,7 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     uploader: Prisma.$UserPayload<ExtArgs>
     versions: Prisma.$DocumentVersionPayload<ExtArgs>[]
     currentVersion: Prisma.$DocumentVersionPayload<ExtArgs> | null
+    tags: Prisma.$DocumentTagPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1192,6 +1297,7 @@ export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime
   uploader<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   versions<T extends Prisma.Document$versionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   currentVersion<T extends Prisma.Document$currentVersionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$currentVersionArgs<ExtArgs>>): Prisma.Prisma__DocumentVersionClient<runtime.Types.Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  tags<T extends Prisma.Document$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1669,6 +1775,30 @@ export type Document$currentVersionArgs<ExtArgs extends runtime.Types.Extensions
    */
   include?: Prisma.DocumentVersionInclude<ExtArgs> | null
   where?: Prisma.DocumentVersionWhereInput
+}
+
+/**
+ * Document.tags
+ */
+export type Document$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentTag
+   */
+  select?: Prisma.DocumentTagSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentTag
+   */
+  omit?: Prisma.DocumentTagOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentTagInclude<ExtArgs> | null
+  where?: Prisma.DocumentTagWhereInput
+  orderBy?: Prisma.DocumentTagOrderByWithRelationInput | Prisma.DocumentTagOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentTagWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentTagScalarFieldEnum | Prisma.DocumentTagScalarFieldEnum[]
 }
 
 /**

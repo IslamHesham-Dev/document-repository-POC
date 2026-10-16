@@ -54,7 +54,9 @@ export const ModelName = {
   Department: 'Department',
   User: 'User',
   Document: 'Document',
-  DocumentVersion: 'DocumentVersion'
+  DocumentVersion: 'DocumentVersion',
+  Tag: 'Tag',
+  DocumentTag: 'DocumentTag'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -122,6 +124,24 @@ export const DocumentVersionScalarFieldEnum = {
 } as const
 
 export type DocumentVersionScalarFieldEnum = (typeof DocumentVersionScalarFieldEnum)[keyof typeof DocumentVersionScalarFieldEnum]
+
+
+export const TagScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt'
+} as const
+
+export type TagScalarFieldEnum = (typeof TagScalarFieldEnum)[keyof typeof TagScalarFieldEnum]
+
+
+export const DocumentTagScalarFieldEnum = {
+  documentId: 'documentId',
+  tagId: 'tagId',
+  taggedAt: 'taggedAt'
+} as const
+
+export type DocumentTagScalarFieldEnum = (typeof DocumentTagScalarFieldEnum)[keyof typeof DocumentTagScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -46,6 +46,7 @@ model Document {
   versions         DocumentVersion[] @relation("DocumentVersions")
   currentVersionId String?           @unique @map("current_version_id") @db.Uuid
   currentVersion   DocumentVersion?  @relation("CurrentDocumentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
+  tags             DocumentTag[]
   createdAt        DateTime          @default(now()) @map("created_at")
   updatedAt        DateTime          @updatedAt @map("updated_at")
   deletedAt        DateTime?         @map("deleted_at")
@@ -74,4 +75,25 @@ model DocumentVersion {
   @@index([documentId])
   @@index([uploaderId])
   @@map("document_versions")
+}
+
+model Tag {
+  id        String        @id @default(uuid()) @db.Uuid
+  name      String        @unique
+  documents DocumentTag[]
+  createdAt DateTime      @default(now()) @map("created_at")
+
+  @@map("tags")
+}
+
+model DocumentTag {
+  documentId String   @map("document_id") @db.Uuid
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  tagId      String   @map("tag_id") @db.Uuid
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+  taggedAt   DateTime @default(now()) @map("tagged_at")
+
+  @@id([documentId, tagId])
+  @@index([tagId])
+  @@map("document_tags")
 }
