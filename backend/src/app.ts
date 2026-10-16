@@ -7,6 +7,8 @@ import {
   notFoundHandler,
 } from "./errors/error.middleware.js";
 import { getHealth } from "./health/health.controller.js";
+import { loadCurrentUser } from "./middleware/user-context.middleware.js";
+import { getCurrentUser } from "./users/current-user.controller.js";
 
 export const app = express();
 
@@ -20,6 +22,9 @@ app.use(
 app.use(express.json());
 
 app.get("/health", getHealth);
+
+app.use("/api", loadCurrentUser);
+app.get("/api/me", getCurrentUser);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);
