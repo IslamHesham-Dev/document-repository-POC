@@ -128,6 +128,13 @@ export type UuidNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedUuidNullableFilter<$PrismaModel> | string | null
 }
 
+export type EnumDocumentAccessScopeFilter<$PrismaModel = never> = {
+  equals?: $Enums.DocumentAccessScope | Prisma.EnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDocumentAccessScopeFilter<$PrismaModel> | $Enums.DocumentAccessScope
+}
+
 export type DateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -157,6 +164,16 @@ export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
   _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
   _min?: Prisma.NestedStringNullableFilter<$PrismaModel>
   _max?: Prisma.NestedStringNullableFilter<$PrismaModel>
+}
+
+export type EnumDocumentAccessScopeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DocumentAccessScope | Prisma.EnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDocumentAccessScopeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentAccessScope
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDocumentAccessScopeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDocumentAccessScopeFilter<$PrismaModel>
 }
 
 export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -347,6 +364,13 @@ export type NestedUuidNullableFilter<$PrismaModel = never> = {
   not?: Prisma.NestedUuidNullableFilter<$PrismaModel> | string | null
 }
 
+export type NestedEnumDocumentAccessScopeFilter<$PrismaModel = never> = {
+  equals?: $Enums.DocumentAccessScope | Prisma.EnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDocumentAccessScopeFilter<$PrismaModel> | $Enums.DocumentAccessScope
+}
+
 export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -395,6 +419,16 @@ export type NestedStringNullableFilter<$PrismaModel = never> = {
   startsWith?: string | Prisma.StringFieldRefInput<$PrismaModel>
   endsWith?: string | Prisma.StringFieldRefInput<$PrismaModel>
   not?: Prisma.NestedStringNullableFilter<$PrismaModel> | string | null
+}
+
+export type NestedEnumDocumentAccessScopeWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.DocumentAccessScope | Prisma.EnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  in?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  notIn?: $Enums.DocumentAccessScope[] | Prisma.ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumDocumentAccessScopeWithAggregatesFilter<$PrismaModel> | $Enums.DocumentAccessScope
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumDocumentAccessScopeFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumDocumentAccessScopeFilter<$PrismaModel>
 }
 
 export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {

@@ -175,6 +175,7 @@ export type DepartmentWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Department"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Department"> | Date | string
   users?: Prisma.UserListRelationFilter
+  documentPermissions?: Prisma.DocumentDepartmentPermissionListRelationFilter
 }
 
 export type DepartmentOrderByWithRelationInput = {
@@ -183,6 +184,7 @@ export type DepartmentOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   users?: Prisma.UserOrderByRelationAggregateInput
+  documentPermissions?: Prisma.DocumentDepartmentPermissionOrderByRelationAggregateInput
 }
 
 export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
@@ -194,6 +196,7 @@ export type DepartmentWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Department"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Department"> | Date | string
   users?: Prisma.UserListRelationFilter
+  documentPermissions?: Prisma.DocumentDepartmentPermissionListRelationFilter
 }, "id" | "name">
 
 export type DepartmentOrderByWithAggregationInput = {
@@ -222,6 +225,7 @@ export type DepartmentCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserCreateNestedManyWithoutDepartmentInput
+  documentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateInput = {
@@ -230,6 +234,7 @@ export type DepartmentUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   users?: Prisma.UserUncheckedCreateNestedManyWithoutDepartmentInput
+  documentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUpdateInput = {
@@ -238,6 +243,7 @@ export type DepartmentUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUpdateManyWithoutDepartmentNestedInput
+  documentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateInput = {
@@ -246,6 +252,7 @@ export type DepartmentUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   users?: Prisma.UserUncheckedUpdateManyWithoutDepartmentNestedInput
+  documentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentCreateManyInput = {
@@ -317,11 +324,26 @@ export type DepartmentUpdateOneRequiredWithoutUsersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutUsersInput, Prisma.DepartmentUpdateWithoutUsersInput>, Prisma.DepartmentUncheckedUpdateWithoutUsersInput>
 }
 
+export type DepartmentCreateNestedOneWithoutDocumentPermissionsInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutDocumentPermissionsInput, Prisma.DepartmentUncheckedCreateWithoutDocumentPermissionsInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutDocumentPermissionsInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+}
+
+export type DepartmentUpdateOneRequiredWithoutDocumentPermissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.DepartmentCreateWithoutDocumentPermissionsInput, Prisma.DepartmentUncheckedCreateWithoutDocumentPermissionsInput>
+  connectOrCreate?: Prisma.DepartmentCreateOrConnectWithoutDocumentPermissionsInput
+  upsert?: Prisma.DepartmentUpsertWithoutDocumentPermissionsInput
+  connect?: Prisma.DepartmentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DepartmentUpdateToOneWithWhereWithoutDocumentPermissionsInput, Prisma.DepartmentUpdateWithoutDocumentPermissionsInput>, Prisma.DepartmentUncheckedUpdateWithoutDocumentPermissionsInput>
+}
+
 export type DepartmentCreateWithoutUsersInput = {
   id?: string
   name: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  documentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentUncheckedCreateWithoutUsersInput = {
@@ -329,6 +351,7 @@ export type DepartmentUncheckedCreateWithoutUsersInput = {
   name: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  documentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDepartmentInput
 }
 
 export type DepartmentCreateOrConnectWithoutUsersInput = {
@@ -352,6 +375,7 @@ export type DepartmentUpdateWithoutUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDepartmentNestedInput
 }
 
 export type DepartmentUncheckedUpdateWithoutUsersInput = {
@@ -359,6 +383,55 @@ export type DepartmentUncheckedUpdateWithoutUsersInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  documentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDepartmentNestedInput
+}
+
+export type DepartmentCreateWithoutDocumentPermissionsInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserCreateNestedManyWithoutDepartmentInput
+}
+
+export type DepartmentUncheckedCreateWithoutDocumentPermissionsInput = {
+  id?: string
+  name: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  users?: Prisma.UserUncheckedCreateNestedManyWithoutDepartmentInput
+}
+
+export type DepartmentCreateOrConnectWithoutDocumentPermissionsInput = {
+  where: Prisma.DepartmentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutDocumentPermissionsInput, Prisma.DepartmentUncheckedCreateWithoutDocumentPermissionsInput>
+}
+
+export type DepartmentUpsertWithoutDocumentPermissionsInput = {
+  update: Prisma.XOR<Prisma.DepartmentUpdateWithoutDocumentPermissionsInput, Prisma.DepartmentUncheckedUpdateWithoutDocumentPermissionsInput>
+  create: Prisma.XOR<Prisma.DepartmentCreateWithoutDocumentPermissionsInput, Prisma.DepartmentUncheckedCreateWithoutDocumentPermissionsInput>
+  where?: Prisma.DepartmentWhereInput
+}
+
+export type DepartmentUpdateToOneWithWhereWithoutDocumentPermissionsInput = {
+  where?: Prisma.DepartmentWhereInput
+  data: Prisma.XOR<Prisma.DepartmentUpdateWithoutDocumentPermissionsInput, Prisma.DepartmentUncheckedUpdateWithoutDocumentPermissionsInput>
+}
+
+export type DepartmentUpdateWithoutDocumentPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUpdateManyWithoutDepartmentNestedInput
+}
+
+export type DepartmentUncheckedUpdateWithoutDocumentPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  users?: Prisma.UserUncheckedUpdateManyWithoutDepartmentNestedInput
 }
 
 
@@ -368,10 +441,12 @@ export type DepartmentUncheckedUpdateWithoutUsersInput = {
 
 export type DepartmentCountOutputType = {
   users: number
+  documentPermissions: number
 }
 
 export type DepartmentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | DepartmentCountOutputTypeCountUsersArgs
+  documentPermissions?: boolean | DepartmentCountOutputTypeCountDocumentPermissionsArgs
 }
 
 /**
@@ -391,6 +466,13 @@ export type DepartmentCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Type
   where?: Prisma.UserWhereInput
 }
 
+/**
+ * DepartmentCountOutputType without action
+ */
+export type DepartmentCountOutputTypeCountDocumentPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentDepartmentPermissionWhereInput
+}
+
 
 export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -398,6 +480,7 @@ export type DepartmentSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   createdAt?: boolean
   updatedAt?: boolean
   users?: boolean | Prisma.Department$usersArgs<ExtArgs>
+  documentPermissions?: boolean | Prisma.Department$documentPermissionsArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["department"]>
 
@@ -425,6 +508,7 @@ export type DepartmentSelectScalar = {
 export type DepartmentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["department"]>
 export type DepartmentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   users?: boolean | Prisma.Department$usersArgs<ExtArgs>
+  documentPermissions?: boolean | Prisma.Department$documentPermissionsArgs<ExtArgs>
   _count?: boolean | Prisma.DepartmentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DepartmentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -434,6 +518,7 @@ export type $DepartmentPayload<ExtArgs extends runtime.Types.Extensions.Internal
   name: "Department"
   objects: {
     users: Prisma.$UserPayload<ExtArgs>[]
+    documentPermissions: Prisma.$DocumentDepartmentPermissionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -835,6 +920,7 @@ readonly fields: DepartmentFieldRefs;
 export interface Prisma__DepartmentClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   users<T extends Prisma.Department$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  documentPermissions<T extends Prisma.Department$documentPermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Department$documentPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentDepartmentPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1282,6 +1368,30 @@ export type Department$usersArgs<ExtArgs extends runtime.Types.Extensions.Intern
   take?: number
   skip?: number
   distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[]
+}
+
+/**
+ * Department.documentPermissions
+ */
+export type Department$documentPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentDepartmentPermission
+   */
+  select?: Prisma.DocumentDepartmentPermissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentDepartmentPermission
+   */
+  omit?: Prisma.DocumentDepartmentPermissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentDepartmentPermissionInclude<ExtArgs> | null
+  where?: Prisma.DocumentDepartmentPermissionWhereInput
+  orderBy?: Prisma.DocumentDepartmentPermissionOrderByWithRelationInput | Prisma.DocumentDepartmentPermissionOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentDepartmentPermissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentDepartmentPermissionScalarFieldEnum | Prisma.DocumentDepartmentPermissionScalarFieldEnum[]
 }
 
 /**

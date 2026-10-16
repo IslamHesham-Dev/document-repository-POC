@@ -12,12 +12,18 @@ enum UserRole {
   ADMIN
 }
 
+enum DocumentAccessScope {
+  RESTRICTED
+  ALL_DEPARTMENTS
+}
+
 model Department {
-  id        String   @id @default(uuid()) @db.Uuid
-  name      String   @unique
-  users     User[]
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id                  String                         @id @default(uuid()) @db.Uuid
+  name                String                         @unique
+  users               User[]
+  documentPermissions DocumentDepartmentPermission[]
+  createdAt           DateTime                       @default(now()) @map("created_at")
+  updatedAt           DateTime                       @updatedAt @map("updated_at")
 
   @@map("departments")
 }
@@ -39,17 +45,19 @@ model User {
 }
 
 model Document {
-  id               String            @id @default(uuid()) @db.Uuid
-  title            String
-  uploaderId       String            @map("uploader_id") @db.Uuid
-  uploader         User              @relation(fields: [uploaderId], references: [id], onDelete: Restrict)
-  versions         DocumentVersion[] @relation("DocumentVersions")
-  currentVersionId String?           @unique @map("current_version_id") @db.Uuid
-  currentVersion   DocumentVersion?  @relation("CurrentDocumentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
-  tags             DocumentTag[]
-  createdAt        DateTime          @default(now()) @map("created_at")
-  updatedAt        DateTime          @updatedAt @map("updated_at")
-  deletedAt        DateTime?         @map("deleted_at")
+  id                    String                         @id @default(uuid()) @db.Uuid
+  title                 String
+  uploaderId            String                         @map("uploader_id") @db.Uuid
+  uploader              User                           @relation(fields: [uploaderId], references: [id], onDelete: Restrict)
+  versions              DocumentVersion[]              @relation("DocumentVersions")
+  currentVersionId      String?                        @unique @map("current_version_id") @db.Uuid
+  currentVersion        DocumentVersion?               @relation("CurrentDocumentVersion", fields: [currentVersionId], references: [id], onDelete: SetNull)
+  tags                  DocumentTag[]
+  accessScope           DocumentAccessScope            @default(RESTRICTED) @map("access_scope")
+  departmentPermissions DocumentDepartmentPermission[]
+  createdAt             DateTime                       @default(now()) @map("created_at")
+  updatedAt             DateTime                       @updatedAt @map("updated_at")
+  deletedAt             DateTime?                      @map("deleted_at")
 
   @@index([uploaderId])
   @@index([title])
@@ -96,4 +104,16 @@ model DocumentTag {
   @@id([documentId, tagId])
   @@index([tagId])
   @@map("document_tags")
+}
+
+model DocumentDepartmentPermission {
+  documentId   String     @map("document_id") @db.Uuid
+  document     Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  departmentId String     @map("department_id") @db.Uuid
+  department   Department @relation(fields: [departmentId], references: [id], onDelete: Cascade)
+  grantedAt    DateTime   @default(now()) @map("granted_at")
+
+  @@id([documentId, departmentId])
+  @@index([departmentId])
+  @@map("document_department_permissions")
 }

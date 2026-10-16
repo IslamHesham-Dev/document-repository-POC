@@ -29,6 +29,7 @@ export type DocumentMinAggregateOutputType = {
   title: string | null
   uploaderId: string | null
   currentVersionId: string | null
+  accessScope: $Enums.DocumentAccessScope | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -39,6 +40,7 @@ export type DocumentMaxAggregateOutputType = {
   title: string | null
   uploaderId: string | null
   currentVersionId: string | null
+  accessScope: $Enums.DocumentAccessScope | null
   createdAt: Date | null
   updatedAt: Date | null
   deletedAt: Date | null
@@ -49,6 +51,7 @@ export type DocumentCountAggregateOutputType = {
   title: number
   uploaderId: number
   currentVersionId: number
+  accessScope: number
   createdAt: number
   updatedAt: number
   deletedAt: number
@@ -61,6 +64,7 @@ export type DocumentMinAggregateInputType = {
   title?: true
   uploaderId?: true
   currentVersionId?: true
+  accessScope?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -71,6 +75,7 @@ export type DocumentMaxAggregateInputType = {
   title?: true
   uploaderId?: true
   currentVersionId?: true
+  accessScope?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -81,6 +86,7 @@ export type DocumentCountAggregateInputType = {
   title?: true
   uploaderId?: true
   currentVersionId?: true
+  accessScope?: true
   createdAt?: true
   updatedAt?: true
   deletedAt?: true
@@ -164,6 +170,7 @@ export type DocumentGroupByOutputType = {
   title: string
   uploaderId: string
   currentVersionId: string | null
+  accessScope: $Enums.DocumentAccessScope
   createdAt: Date
   updatedAt: Date
   deletedAt: Date | null
@@ -195,6 +202,7 @@ export type DocumentWhereInput = {
   title?: Prisma.StringFilter<"Document"> | string
   uploaderId?: Prisma.UuidFilter<"Document"> | string
   currentVersionId?: Prisma.UuidNullableFilter<"Document"> | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFilter<"Document"> | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
@@ -202,6 +210,7 @@ export type DocumentWhereInput = {
   versions?: Prisma.DocumentVersionListRelationFilter
   currentVersion?: Prisma.XOR<Prisma.DocumentVersionNullableScalarRelationFilter, Prisma.DocumentVersionWhereInput> | null
   tags?: Prisma.DocumentTagListRelationFilter
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionListRelationFilter
 }
 
 export type DocumentOrderByWithRelationInput = {
@@ -209,6 +218,7 @@ export type DocumentOrderByWithRelationInput = {
   title?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   currentVersionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  accessScope?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -216,6 +226,7 @@ export type DocumentOrderByWithRelationInput = {
   versions?: Prisma.DocumentVersionOrderByRelationAggregateInput
   currentVersion?: Prisma.DocumentVersionOrderByWithRelationInput
   tags?: Prisma.DocumentTagOrderByRelationAggregateInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionOrderByRelationAggregateInput
 }
 
 export type DocumentWhereUniqueInput = Prisma.AtLeast<{
@@ -226,6 +237,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.DocumentWhereInput | Prisma.DocumentWhereInput[]
   title?: Prisma.StringFilter<"Document"> | string
   uploaderId?: Prisma.UuidFilter<"Document"> | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFilter<"Document"> | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
@@ -233,6 +245,7 @@ export type DocumentWhereUniqueInput = Prisma.AtLeast<{
   versions?: Prisma.DocumentVersionListRelationFilter
   currentVersion?: Prisma.XOR<Prisma.DocumentVersionNullableScalarRelationFilter, Prisma.DocumentVersionWhereInput> | null
   tags?: Prisma.DocumentTagListRelationFilter
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionListRelationFilter
 }, "id" | "currentVersionId">
 
 export type DocumentOrderByWithAggregationInput = {
@@ -240,6 +253,7 @@ export type DocumentOrderByWithAggregationInput = {
   title?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   currentVersionId?: Prisma.SortOrderInput | Prisma.SortOrder
+  accessScope?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -256,6 +270,7 @@ export type DocumentScalarWhereWithAggregatesInput = {
   title?: Prisma.StringWithAggregatesFilter<"Document"> | string
   uploaderId?: Prisma.UuidWithAggregatesFilter<"Document"> | string
   currentVersionId?: Prisma.UuidNullableWithAggregatesFilter<"Document"> | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeWithAggregatesFilter<"Document"> | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Document"> | Date | string
   deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Document"> | Date | string | null
@@ -264,6 +279,7 @@ export type DocumentScalarWhereWithAggregatesInput = {
 export type DocumentCreateInput = {
   id?: string
   title: string
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -271,6 +287,7 @@ export type DocumentCreateInput = {
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
   tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateInput = {
@@ -278,16 +295,19 @@ export type DocumentUncheckedCreateInput = {
   title: string
   uploaderId: string
   currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
   tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -295,6 +315,7 @@ export type DocumentUpdateInput = {
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
   tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateInput = {
@@ -302,11 +323,13 @@ export type DocumentUncheckedUpdateInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
   tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyInput = {
@@ -314,6 +337,7 @@ export type DocumentCreateManyInput = {
   title: string
   uploaderId: string
   currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -322,6 +346,7 @@ export type DocumentCreateManyInput = {
 export type DocumentUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -332,6 +357,7 @@ export type DocumentUncheckedUpdateManyInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -352,6 +378,7 @@ export type DocumentCountOrderByAggregateInput = {
   title?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   currentVersionId?: Prisma.SortOrder
+  accessScope?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -362,6 +389,7 @@ export type DocumentMaxOrderByAggregateInput = {
   title?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   currentVersionId?: Prisma.SortOrder
+  accessScope?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -372,6 +400,7 @@ export type DocumentMinOrderByAggregateInput = {
   title?: Prisma.SortOrder
   uploaderId?: Prisma.SortOrder
   currentVersionId?: Prisma.SortOrder
+  accessScope?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   deletedAt?: Prisma.SortOrder
@@ -427,6 +456,10 @@ export type DocumentUncheckedUpdateManyWithoutUploaderNestedInput = {
   update?: Prisma.DocumentUpdateWithWhereUniqueWithoutUploaderInput | Prisma.DocumentUpdateWithWhereUniqueWithoutUploaderInput[]
   updateMany?: Prisma.DocumentUpdateManyWithWhereWithoutUploaderInput | Prisma.DocumentUpdateManyWithWhereWithoutUploaderInput[]
   deleteMany?: Prisma.DocumentScalarWhereInput | Prisma.DocumentScalarWhereInput[]
+}
+
+export type EnumDocumentAccessScopeFieldUpdateOperationsInput = {
+  set?: $Enums.DocumentAccessScope
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -497,26 +530,44 @@ export type DocumentUpdateOneRequiredWithoutTagsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutTagsInput, Prisma.DocumentUpdateWithoutTagsInput>, Prisma.DocumentUncheckedUpdateWithoutTagsInput>
 }
 
+export type DocumentCreateNestedOneWithoutDepartmentPermissionsInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutDepartmentPermissionsInput, Prisma.DocumentUncheckedCreateWithoutDepartmentPermissionsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutDepartmentPermissionsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+}
+
+export type DocumentUpdateOneRequiredWithoutDepartmentPermissionsNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentCreateWithoutDepartmentPermissionsInput, Prisma.DocumentUncheckedCreateWithoutDepartmentPermissionsInput>
+  connectOrCreate?: Prisma.DocumentCreateOrConnectWithoutDepartmentPermissionsInput
+  upsert?: Prisma.DocumentUpsertWithoutDepartmentPermissionsInput
+  connect?: Prisma.DocumentWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DocumentUpdateToOneWithWhereWithoutDepartmentPermissionsInput, Prisma.DocumentUpdateWithoutDepartmentPermissionsInput>, Prisma.DocumentUncheckedUpdateWithoutDepartmentPermissionsInput>
+}
+
 export type DocumentCreateWithoutUploaderInput = {
   id?: string
   title: string
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
   tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutUploaderInput = {
   id?: string
   title: string
   currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
   tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutUploaderInput = {
@@ -553,6 +604,7 @@ export type DocumentScalarWhereInput = {
   title?: Prisma.StringFilter<"Document"> | string
   uploaderId?: Prisma.UuidFilter<"Document"> | string
   currentVersionId?: Prisma.UuidNullableFilter<"Document"> | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFilter<"Document"> | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Document"> | Date | string
   deletedAt?: Prisma.DateTimeNullableFilter<"Document"> | Date | string | null
@@ -561,12 +613,14 @@ export type DocumentScalarWhereInput = {
 export type DocumentCreateWithoutVersionsInput = {
   id?: string
   title: string
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
   tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutVersionsInput = {
@@ -574,10 +628,12 @@ export type DocumentUncheckedCreateWithoutVersionsInput = {
   title: string
   uploaderId: string
   currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutVersionsInput = {
@@ -588,23 +644,27 @@ export type DocumentCreateOrConnectWithoutVersionsInput = {
 export type DocumentCreateWithoutCurrentVersionInput = {
   id?: string
   title: string
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
   tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutCurrentVersionInput = {
   id?: string
   title: string
   uploaderId: string
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
   tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutCurrentVersionInput = {
@@ -626,12 +686,14 @@ export type DocumentUpdateToOneWithWhereWithoutVersionsInput = {
 export type DocumentUpdateWithoutVersionsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
   tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutVersionsInput = {
@@ -639,10 +701,12 @@ export type DocumentUncheckedUpdateWithoutVersionsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUpsertWithoutCurrentVersionInput = {
@@ -659,34 +723,40 @@ export type DocumentUpdateToOneWithWhereWithoutCurrentVersionInput = {
 export type DocumentUpdateWithoutCurrentVersionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
   tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutCurrentVersionInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
   tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateWithoutTagsInput = {
   id?: string
   title: string
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
   versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
   currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentUncheckedCreateWithoutTagsInput = {
@@ -694,10 +764,12 @@ export type DocumentUncheckedCreateWithoutTagsInput = {
   title: string
   uploaderId: string
   currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
   versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedCreateNestedManyWithoutDocumentInput
 }
 
 export type DocumentCreateOrConnectWithoutTagsInput = {
@@ -719,12 +791,14 @@ export type DocumentUpdateToOneWithWhereWithoutTagsInput = {
 export type DocumentUpdateWithoutTagsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutTagsInput = {
@@ -732,16 +806,87 @@ export type DocumentUncheckedUpdateWithoutTagsInput = {
   title?: Prisma.StringFieldUpdateOperationsInput | string
   uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
   currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentCreateWithoutDepartmentPermissionsInput = {
+  id?: string
+  title: string
+  accessScope?: $Enums.DocumentAccessScope
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  uploader: Prisma.UserCreateNestedOneWithoutDocumentsInput
+  versions?: Prisma.DocumentVersionCreateNestedManyWithoutDocumentInput
+  currentVersion?: Prisma.DocumentVersionCreateNestedOneWithoutCurrentForInput
+  tags?: Prisma.DocumentTagCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentUncheckedCreateWithoutDepartmentPermissionsInput = {
+  id?: string
+  title: string
+  uploaderId: string
+  currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  versions?: Prisma.DocumentVersionUncheckedCreateNestedManyWithoutDocumentInput
+  tags?: Prisma.DocumentTagUncheckedCreateNestedManyWithoutDocumentInput
+}
+
+export type DocumentCreateOrConnectWithoutDepartmentPermissionsInput = {
+  where: Prisma.DocumentWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutDepartmentPermissionsInput, Prisma.DocumentUncheckedCreateWithoutDepartmentPermissionsInput>
+}
+
+export type DocumentUpsertWithoutDepartmentPermissionsInput = {
+  update: Prisma.XOR<Prisma.DocumentUpdateWithoutDepartmentPermissionsInput, Prisma.DocumentUncheckedUpdateWithoutDepartmentPermissionsInput>
+  create: Prisma.XOR<Prisma.DocumentCreateWithoutDepartmentPermissionsInput, Prisma.DocumentUncheckedCreateWithoutDepartmentPermissionsInput>
+  where?: Prisma.DocumentWhereInput
+}
+
+export type DocumentUpdateToOneWithWhereWithoutDepartmentPermissionsInput = {
+  where?: Prisma.DocumentWhereInput
+  data: Prisma.XOR<Prisma.DocumentUpdateWithoutDepartmentPermissionsInput, Prisma.DocumentUncheckedUpdateWithoutDepartmentPermissionsInput>
+}
+
+export type DocumentUpdateWithoutDepartmentPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  uploader?: Prisma.UserUpdateOneRequiredWithoutDocumentsNestedInput
+  versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
+  currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
+  tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
+}
+
+export type DocumentUncheckedUpdateWithoutDepartmentPermissionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
+  tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentCreateManyUploaderInput = {
   id?: string
   title: string
   currentVersionId?: string | null
+  accessScope?: $Enums.DocumentAccessScope
   createdAt?: Date | string
   updatedAt?: Date | string
   deletedAt?: Date | string | null
@@ -750,29 +895,34 @@ export type DocumentCreateManyUploaderInput = {
 export type DocumentUpdateWithoutUploaderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUpdateManyWithoutDocumentNestedInput
   currentVersion?: Prisma.DocumentVersionUpdateOneWithoutCurrentForNestedInput
   tags?: Prisma.DocumentTagUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateWithoutUploaderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   versions?: Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput
   tags?: Prisma.DocumentTagUncheckedUpdateManyWithoutDocumentNestedInput
+  departmentPermissions?: Prisma.DocumentDepartmentPermissionUncheckedUpdateManyWithoutDocumentNestedInput
 }
 
 export type DocumentUncheckedUpdateManyWithoutUploaderInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   currentVersionId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accessScope?: Prisma.EnumDocumentAccessScopeFieldUpdateOperationsInput | $Enums.DocumentAccessScope
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -786,11 +936,13 @@ export type DocumentUncheckedUpdateManyWithoutUploaderInput = {
 export type DocumentCountOutputType = {
   versions: number
   tags: number
+  departmentPermissions: number
 }
 
 export type DocumentCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   versions?: boolean | DocumentCountOutputTypeCountVersionsArgs
   tags?: boolean | DocumentCountOutputTypeCountTagsArgs
+  departmentPermissions?: boolean | DocumentCountOutputTypeCountDepartmentPermissionsArgs
 }
 
 /**
@@ -817,12 +969,20 @@ export type DocumentCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.DocumentTagWhereInput
 }
 
+/**
+ * DocumentCountOutputType without action
+ */
+export type DocumentCountOutputTypeCountDepartmentPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DocumentDepartmentPermissionWhereInput
+}
+
 
 export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   title?: boolean
   uploaderId?: boolean
   currentVersionId?: boolean
+  accessScope?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -830,6 +990,7 @@ export type DocumentSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   versions?: boolean | Prisma.Document$versionsArgs<ExtArgs>
   currentVersion?: boolean | Prisma.Document$currentVersionArgs<ExtArgs>
   tags?: boolean | Prisma.Document$tagsArgs<ExtArgs>
+  departmentPermissions?: boolean | Prisma.Document$departmentPermissionsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["document"]>
 
@@ -838,6 +999,7 @@ export type DocumentSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   title?: boolean
   uploaderId?: boolean
   currentVersionId?: boolean
+  accessScope?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -850,6 +1012,7 @@ export type DocumentSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   title?: boolean
   uploaderId?: boolean
   currentVersionId?: boolean
+  accessScope?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
@@ -862,17 +1025,19 @@ export type DocumentSelectScalar = {
   title?: boolean
   uploaderId?: boolean
   currentVersionId?: boolean
+  accessScope?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   deletedAt?: boolean
 }
 
-export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "uploaderId" | "currentVersionId" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["document"]>
+export type DocumentOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "uploaderId" | "currentVersionId" | "accessScope" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["document"]>
 export type DocumentInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   versions?: boolean | Prisma.Document$versionsArgs<ExtArgs>
   currentVersion?: boolean | Prisma.Document$currentVersionArgs<ExtArgs>
   tags?: boolean | Prisma.Document$tagsArgs<ExtArgs>
+  departmentPermissions?: boolean | Prisma.Document$departmentPermissionsArgs<ExtArgs>
   _count?: boolean | Prisma.DocumentCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type DocumentIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -891,12 +1056,14 @@ export type $DocumentPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     versions: Prisma.$DocumentVersionPayload<ExtArgs>[]
     currentVersion: Prisma.$DocumentVersionPayload<ExtArgs> | null
     tags: Prisma.$DocumentTagPayload<ExtArgs>[]
+    departmentPermissions: Prisma.$DocumentDepartmentPermissionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
     uploaderId: string
     currentVersionId: string | null
+    accessScope: $Enums.DocumentAccessScope
     createdAt: Date
     updatedAt: Date
     deletedAt: Date | null
@@ -1298,6 +1465,7 @@ export interface Prisma__DocumentClient<T, Null = never, ExtArgs extends runtime
   versions<T extends Prisma.Document$versionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$versionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   currentVersion<T extends Prisma.Document$currentVersionArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$currentVersionArgs<ExtArgs>>): Prisma.Prisma__DocumentVersionClient<runtime.Types.Result.GetResult<Prisma.$DocumentVersionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   tags<T extends Prisma.Document$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentTagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  departmentPermissions<T extends Prisma.Document$departmentPermissionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Document$departmentPermissionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentDepartmentPermissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1331,6 +1499,7 @@ export interface DocumentFieldRefs {
   readonly title: Prisma.FieldRef<"Document", 'String'>
   readonly uploaderId: Prisma.FieldRef<"Document", 'String'>
   readonly currentVersionId: Prisma.FieldRef<"Document", 'String'>
+  readonly accessScope: Prisma.FieldRef<"Document", 'DocumentAccessScope'>
   readonly createdAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Document", 'DateTime'>
   readonly deletedAt: Prisma.FieldRef<"Document", 'DateTime'>
@@ -1799,6 +1968,30 @@ export type Document$tagsArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.DocumentTagScalarFieldEnum | Prisma.DocumentTagScalarFieldEnum[]
+}
+
+/**
+ * Document.departmentPermissions
+ */
+export type Document$departmentPermissionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DocumentDepartmentPermission
+   */
+  select?: Prisma.DocumentDepartmentPermissionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the DocumentDepartmentPermission
+   */
+  omit?: Prisma.DocumentDepartmentPermissionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DocumentDepartmentPermissionInclude<ExtArgs> | null
+  where?: Prisma.DocumentDepartmentPermissionWhereInput
+  orderBy?: Prisma.DocumentDepartmentPermissionOrderByWithRelationInput | Prisma.DocumentDepartmentPermissionOrderByWithRelationInput[]
+  cursor?: Prisma.DocumentDepartmentPermissionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DocumentDepartmentPermissionScalarFieldEnum | Prisma.DocumentDepartmentPermissionScalarFieldEnum[]
 }
 
 /**

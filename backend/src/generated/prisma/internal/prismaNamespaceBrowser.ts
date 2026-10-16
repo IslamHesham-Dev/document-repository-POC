@@ -56,7 +56,8 @@ export const ModelName = {
   Document: 'Document',
   DocumentVersion: 'DocumentVersion',
   Tag: 'Tag',
-  DocumentTag: 'DocumentTag'
+  DocumentTag: 'DocumentTag',
+  DocumentDepartmentPermission: 'DocumentDepartmentPermission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -103,6 +104,7 @@ export const DocumentScalarFieldEnum = {
   title: 'title',
   uploaderId: 'uploaderId',
   currentVersionId: 'currentVersionId',
+  accessScope: 'accessScope',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
@@ -142,6 +144,15 @@ export const DocumentTagScalarFieldEnum = {
 } as const
 
 export type DocumentTagScalarFieldEnum = (typeof DocumentTagScalarFieldEnum)[keyof typeof DocumentTagScalarFieldEnum]
+
+
+export const DocumentDepartmentPermissionScalarFieldEnum = {
+  documentId: 'documentId',
+  departmentId: 'departmentId',
+  grantedAt: 'grantedAt'
+} as const
+
+export type DocumentDepartmentPermissionScalarFieldEnum = (typeof DocumentDepartmentPermissionScalarFieldEnum)[keyof typeof DocumentDepartmentPermissionScalarFieldEnum]
 
 
 export const SortOrder = {

@@ -15,3 +15,11 @@ export const UserRole = {
 } as const
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
+
+
+export const DocumentAccessScope = {
+  RESTRICTED: 'RESTRICTED',
+  ALL_DEPARTMENTS: 'ALL_DEPARTMENTS'
+} as const
+
+export type DocumentAccessScope = (typeof DocumentAccessScope)[keyof typeof DocumentAccessScope]

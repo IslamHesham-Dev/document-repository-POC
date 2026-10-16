@@ -402,7 +402,8 @@ export const ModelName = {
   Document: 'Document',
   DocumentVersion: 'DocumentVersion',
   Tag: 'Tag',
-  DocumentTag: 'DocumentTag'
+  DocumentTag: 'DocumentTag',
+  DocumentDepartmentPermission: 'DocumentDepartmentPermission'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -418,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "department" | "user" | "document" | "documentVersion" | "tag" | "documentTag"
+    modelProps: "department" | "user" | "document" | "documentVersion" | "tag" | "documentTag" | "documentDepartmentPermission"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -866,6 +867,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DocumentDepartmentPermission: {
+      payload: Prisma.$DocumentDepartmentPermissionPayload<ExtArgs>
+      fields: Prisma.DocumentDepartmentPermissionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DocumentDepartmentPermissionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DocumentDepartmentPermissionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>
+        }
+        findFirst: {
+          args: Prisma.DocumentDepartmentPermissionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DocumentDepartmentPermissionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>
+        }
+        findMany: {
+          args: Prisma.DocumentDepartmentPermissionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>[]
+        }
+        create: {
+          args: Prisma.DocumentDepartmentPermissionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>
+        }
+        createMany: {
+          args: Prisma.DocumentDepartmentPermissionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DocumentDepartmentPermissionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>[]
+        }
+        delete: {
+          args: Prisma.DocumentDepartmentPermissionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>
+        }
+        update: {
+          args: Prisma.DocumentDepartmentPermissionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>
+        }
+        deleteMany: {
+          args: Prisma.DocumentDepartmentPermissionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DocumentDepartmentPermissionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DocumentDepartmentPermissionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>[]
+        }
+        upsert: {
+          args: Prisma.DocumentDepartmentPermissionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DocumentDepartmentPermissionPayload>
+        }
+        aggregate: {
+          args: Prisma.DocumentDepartmentPermissionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDocumentDepartmentPermission>
+        }
+        groupBy: {
+          args: Prisma.DocumentDepartmentPermissionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentDepartmentPermissionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DocumentDepartmentPermissionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DocumentDepartmentPermissionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -933,6 +1008,7 @@ export const DocumentScalarFieldEnum = {
   title: 'title',
   uploaderId: 'uploaderId',
   currentVersionId: 'currentVersionId',
+  accessScope: 'accessScope',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
@@ -972,6 +1048,15 @@ export const DocumentTagScalarFieldEnum = {
 } as const
 
 export type DocumentTagScalarFieldEnum = (typeof DocumentTagScalarFieldEnum)[keyof typeof DocumentTagScalarFieldEnum]
+
+
+export const DocumentDepartmentPermissionScalarFieldEnum = {
+  documentId: 'documentId',
+  departmentId: 'departmentId',
+  grantedAt: 'grantedAt'
+} as const
+
+export type DocumentDepartmentPermissionScalarFieldEnum = (typeof DocumentDepartmentPermissionScalarFieldEnum)[keyof typeof DocumentDepartmentPermissionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1043,6 +1128,20 @@ export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
  * Reference to a field of type 'UserRole[]'
  */
 export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DocumentAccessScope'
+ */
+export type EnumDocumentAccessScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentAccessScope'>
+    
+
+
+/**
+ * Reference to a field of type 'DocumentAccessScope[]'
+ */
+export type ListEnumDocumentAccessScopeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DocumentAccessScope[]'>
     
 
 
@@ -1244,6 +1343,7 @@ export type GlobalOmitConfig = {
   documentVersion?: Prisma.DocumentVersionOmit
   tag?: Prisma.TagOmit
   documentTag?: Prisma.DocumentTagOmit
+  documentDepartmentPermission?: Prisma.DocumentDepartmentPermissionOmit
 }
 
 /* Types for Logging */

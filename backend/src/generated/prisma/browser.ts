@@ -47,3 +47,8 @@ export type Tag = Prisma.TagModel
  * 
  */
 export type DocumentTag = Prisma.DocumentTagModel
+/**
+ * Model DocumentDepartmentPermission
+ * 
+ */
+export type DocumentDepartmentPermission = Prisma.DocumentDepartmentPermissionModel
