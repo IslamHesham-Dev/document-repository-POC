@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 
 import { env } from "./config/env.js";
+import { documentRouter } from "./documents/document.router.js";
 import {
   globalErrorHandler,
   notFoundHandler,
@@ -25,6 +26,7 @@ app.get("/health", getHealth);
 
 app.use("/api", loadCurrentUser);
 app.get("/api/me", getCurrentUser);
+app.use("/api/documents", documentRouter);
 
 app.use(notFoundHandler);
 app.use(globalErrorHandler);

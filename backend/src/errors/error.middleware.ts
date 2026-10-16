@@ -4,6 +4,7 @@ import type {
   Request,
   Response,
 } from "express";
+import { MulterError } from "multer";
 
 import { env } from "../config/env.js";
 import { AppError } from "./app-error.js";
@@ -60,6 +61,26 @@ export const globalErrorHandler: ErrorRequestHandler = (
 
   if (isInvalidJsonError(error)) {
     sendError(response, 400, "INVALID_JSON", "The request body is not valid JSON");
+    return;
+  }
+
+  if (error instanceof MulterError) {
+    if (error.code === "LIMIT_FILE_SIZE") {
+      sendError(
+        response,
+        413,
+        "FILE_TOO_LARGE",
+        `Uploaded files cannot exceed ${env.maxFileSize} bytes`,
+      );
+      return;
+    }
+
+    sendError(
+      response,
+      400,
+      "INVALID_MULTIPART_FORM",
+      "The multipart form data is not valid",
+    );
     return;
   }
 
