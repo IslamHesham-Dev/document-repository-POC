@@ -1,3 +1,6 @@
+import { AppError } from "../errors/app-error.js";
+import type { Prisma } from "../generated/prisma/client.js";
+import type { CurrentUser } from "../users/user-context.types.js";
 import { PermissionRepository } from "./permission.repository.js";
 
 export class PermissionService {
@@ -10,34 +13,45 @@ export class PermissionService {
     return this.permissionRepository.grantToDepartment(documentId, departmentId);
   }
 
-  public async canAccessDocument(
-    userId: string,
-    documentId: string,
-  ): Promise<boolean> {
-    const [user, document] = await Promise.all([
-      this.permissionRepository.findUserAccessIdentity(userId),
-      this.permissionRepository.findDocumentAccessPolicy(documentId),
-    ]);
-
-    if (!user || !document) {
-      return false;
-    }
-
+  public getAccessibleDocumentWhere(
+    user: CurrentUser,
+  ): Prisma.DocumentWhereInput {
     if (user.role === "ADMIN") {
-      return true;
+      return {};
     }
 
-    if (document.uploaderId === user.id) {
-      return true;
-    }
+    return {
+      OR: [
+        { uploaderId: user.id },
+        { accessScope: "ALL_DEPARTMENTS" },
+        {
+          departmentPermissions: {
+            some: { departmentId: user.departmentId },
+          },
+        },
+      ],
+    };
+  }
 
-    if (document.accessScope === "ALL_DEPARTMENTS") {
-      return true;
-    }
-
-    return this.permissionRepository.hasDepartmentPermission(
-      document.id,
-      user.departmentId,
+  public canAccessDocument(user: CurrentUser, documentId: string) {
+    return this.permissionRepository.canAccessDocument(
+      documentId,
+      this.getAccessibleDocumentWhere(user),
     );
+  }
+
+  public async requireDocumentAccess(
+    user: CurrentUser,
+    documentId: string,
+  ): Promise<void> {
+    const canAccess = await this.canAccessDocument(user, documentId);
+
+    if (!canAccess) {
+      throw new AppError(
+        403,
+        "DOCUMENT_ACCESS_DENIED",
+        "You do not have permission to access this document",
+      );
+    }
   }
 }

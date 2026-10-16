@@ -1,43 +1,20 @@
 import { prisma } from "../config/prisma.js";
+import type { Prisma } from "../generated/prisma/client.js";
 
 export class PermissionRepository {
-  public findUserAccessIdentity(userId: string) {
-    return prisma.user.findUnique({
-      where: { id: userId },
-      select: {
-        id: true,
-        role: true,
-        departmentId: true,
-      },
-    });
-  }
-
-  public findDocumentAccessPolicy(documentId: string) {
-    return prisma.document.findUnique({
-      where: { id: documentId },
-      select: {
-        id: true,
-        uploaderId: true,
-        accessScope: true,
-      },
-    });
-  }
-
-  public async hasDepartmentPermission(
+  public async canAccessDocument(
     documentId: string,
-    departmentId: string,
+    accessWhere: Prisma.DocumentWhereInput,
   ): Promise<boolean> {
-    const permission = await prisma.documentDepartmentPermission.findUnique({
+    const document = await prisma.document.findFirst({
       where: {
-        documentId_departmentId: {
-          documentId,
-          departmentId,
-        },
+        id: documentId,
+        ...accessWhere,
       },
-      select: { documentId: true },
+      select: { id: true },
     });
 
-    return permission !== null;
+    return document !== null;
   }
 
   public grantToDepartment(documentId: string, departmentId: string) {
