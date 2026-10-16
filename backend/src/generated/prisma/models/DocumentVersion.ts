@@ -20,46 +20,104 @@ export type DocumentVersionModel = runtime.Types.Result.DefaultSelection<Prisma.
 
 export type AggregateDocumentVersion = {
   _count: DocumentVersionCountAggregateOutputType | null
+  _avg: DocumentVersionAvgAggregateOutputType | null
+  _sum: DocumentVersionSumAggregateOutputType | null
   _min: DocumentVersionMinAggregateOutputType | null
   _max: DocumentVersionMaxAggregateOutputType | null
+}
+
+export type DocumentVersionAvgAggregateOutputType = {
+  versionNumber: number | null
+  fileSize: number | null
+}
+
+export type DocumentVersionSumAggregateOutputType = {
+  versionNumber: number | null
+  fileSize: bigint | null
 }
 
 export type DocumentVersionMinAggregateOutputType = {
   id: string | null
   documentId: string | null
-  createdAt: Date | null
+  versionNumber: number | null
+  originalFilename: string | null
+  storageKey: string | null
+  mimeType: string | null
+  fileSize: bigint | null
+  uploaderId: string | null
+  uploadedAt: Date | null
 }
 
 export type DocumentVersionMaxAggregateOutputType = {
   id: string | null
   documentId: string | null
-  createdAt: Date | null
+  versionNumber: number | null
+  originalFilename: string | null
+  storageKey: string | null
+  mimeType: string | null
+  fileSize: bigint | null
+  uploaderId: string | null
+  uploadedAt: Date | null
 }
 
 export type DocumentVersionCountAggregateOutputType = {
   id: number
   documentId: number
-  createdAt: number
+  versionNumber: number
+  originalFilename: number
+  storageKey: number
+  mimeType: number
+  fileSize: number
+  uploaderId: number
+  uploadedAt: number
   _all: number
 }
 
 
+export type DocumentVersionAvgAggregateInputType = {
+  versionNumber?: true
+  fileSize?: true
+}
+
+export type DocumentVersionSumAggregateInputType = {
+  versionNumber?: true
+  fileSize?: true
+}
+
 export type DocumentVersionMinAggregateInputType = {
   id?: true
   documentId?: true
-  createdAt?: true
+  versionNumber?: true
+  originalFilename?: true
+  storageKey?: true
+  mimeType?: true
+  fileSize?: true
+  uploaderId?: true
+  uploadedAt?: true
 }
 
 export type DocumentVersionMaxAggregateInputType = {
   id?: true
   documentId?: true
-  createdAt?: true
+  versionNumber?: true
+  originalFilename?: true
+  storageKey?: true
+  mimeType?: true
+  fileSize?: true
+  uploaderId?: true
+  uploadedAt?: true
 }
 
 export type DocumentVersionCountAggregateInputType = {
   id?: true
   documentId?: true
-  createdAt?: true
+  versionNumber?: true
+  originalFilename?: true
+  storageKey?: true
+  mimeType?: true
+  fileSize?: true
+  uploaderId?: true
+  uploadedAt?: true
   _all?: true
 }
 
@@ -101,6 +159,18 @@ export type DocumentVersionAggregateArgs<ExtArgs extends runtime.Types.Extension
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: DocumentVersionAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: DocumentVersionSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: DocumentVersionMinAggregateInputType
@@ -131,6 +201,8 @@ export type DocumentVersionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   _count?: DocumentVersionCountAggregateInputType | true
+  _avg?: DocumentVersionAvgAggregateInputType
+  _sum?: DocumentVersionSumAggregateInputType
   _min?: DocumentVersionMinAggregateInputType
   _max?: DocumentVersionMaxAggregateInputType
 }
@@ -138,8 +210,16 @@ export type DocumentVersionGroupByArgs<ExtArgs extends runtime.Types.Extensions.
 export type DocumentVersionGroupByOutputType = {
   id: string
   documentId: string
-  createdAt: Date
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint
+  uploaderId: string
+  uploadedAt: Date
   _count: DocumentVersionCountAggregateOutputType | null
+  _avg: DocumentVersionAvgAggregateOutputType | null
+  _sum: DocumentVersionSumAggregateOutputType | null
   _min: DocumentVersionMinAggregateOutputType | null
   _max: DocumentVersionMaxAggregateOutputType | null
 }
@@ -165,37 +245,67 @@ export type DocumentVersionWhereInput = {
   NOT?: Prisma.DocumentVersionWhereInput | Prisma.DocumentVersionWhereInput[]
   id?: Prisma.UuidFilter<"DocumentVersion"> | string
   documentId?: Prisma.UuidFilter<"DocumentVersion"> | string
-  createdAt?: Prisma.DateTimeFilter<"DocumentVersion"> | Date | string
+  versionNumber?: Prisma.IntFilter<"DocumentVersion"> | number
+  originalFilename?: Prisma.StringFilter<"DocumentVersion"> | string
+  storageKey?: Prisma.StringFilter<"DocumentVersion"> | string
+  mimeType?: Prisma.StringFilter<"DocumentVersion"> | string
+  fileSize?: Prisma.BigIntFilter<"DocumentVersion"> | bigint | number
+  uploaderId?: Prisma.UuidFilter<"DocumentVersion"> | string
+  uploadedAt?: Prisma.DateTimeFilter<"DocumentVersion"> | Date | string
   document?: Prisma.XOR<Prisma.DocumentScalarRelationFilter, Prisma.DocumentWhereInput>
+  uploader?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   currentFor?: Prisma.XOR<Prisma.DocumentNullableScalarRelationFilter, Prisma.DocumentWhereInput> | null
 }
 
 export type DocumentVersionOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  versionNumber?: Prisma.SortOrder
+  originalFilename?: Prisma.SortOrder
+  storageKey?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  uploaderId?: Prisma.SortOrder
+  uploadedAt?: Prisma.SortOrder
   document?: Prisma.DocumentOrderByWithRelationInput
+  uploader?: Prisma.UserOrderByWithRelationInput
   currentFor?: Prisma.DocumentOrderByWithRelationInput
 }
 
 export type DocumentVersionWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  storageKey?: string
+  documentId_versionNumber?: Prisma.DocumentVersionDocumentIdVersionNumberCompoundUniqueInput
   AND?: Prisma.DocumentVersionWhereInput | Prisma.DocumentVersionWhereInput[]
   OR?: Prisma.DocumentVersionWhereInput[]
   NOT?: Prisma.DocumentVersionWhereInput | Prisma.DocumentVersionWhereInput[]
   documentId?: Prisma.UuidFilter<"DocumentVersion"> | string
-  createdAt?: Prisma.DateTimeFilter<"DocumentVersion"> | Date | string
+  versionNumber?: Prisma.IntFilter<"DocumentVersion"> | number
+  originalFilename?: Prisma.StringFilter<"DocumentVersion"> | string
+  mimeType?: Prisma.StringFilter<"DocumentVersion"> | string
+  fileSize?: Prisma.BigIntFilter<"DocumentVersion"> | bigint | number
+  uploaderId?: Prisma.UuidFilter<"DocumentVersion"> | string
+  uploadedAt?: Prisma.DateTimeFilter<"DocumentVersion"> | Date | string
   document?: Prisma.XOR<Prisma.DocumentScalarRelationFilter, Prisma.DocumentWhereInput>
+  uploader?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   currentFor?: Prisma.XOR<Prisma.DocumentNullableScalarRelationFilter, Prisma.DocumentWhereInput> | null
-}, "id">
+}, "id" | "storageKey" | "documentId_versionNumber">
 
 export type DocumentVersionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  versionNumber?: Prisma.SortOrder
+  originalFilename?: Prisma.SortOrder
+  storageKey?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  uploaderId?: Prisma.SortOrder
+  uploadedAt?: Prisma.SortOrder
   _count?: Prisma.DocumentVersionCountOrderByAggregateInput
+  _avg?: Prisma.DocumentVersionAvgOrderByAggregateInput
   _max?: Prisma.DocumentVersionMaxOrderByAggregateInput
   _min?: Prisma.DocumentVersionMinOrderByAggregateInput
+  _sum?: Prisma.DocumentVersionSumOrderByAggregateInput
 }
 
 export type DocumentVersionScalarWhereWithAggregatesInput = {
@@ -204,52 +314,99 @@ export type DocumentVersionScalarWhereWithAggregatesInput = {
   NOT?: Prisma.DocumentVersionScalarWhereWithAggregatesInput | Prisma.DocumentVersionScalarWhereWithAggregatesInput[]
   id?: Prisma.UuidWithAggregatesFilter<"DocumentVersion"> | string
   documentId?: Prisma.UuidWithAggregatesFilter<"DocumentVersion"> | string
-  createdAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentVersion"> | Date | string
+  versionNumber?: Prisma.IntWithAggregatesFilter<"DocumentVersion"> | number
+  originalFilename?: Prisma.StringWithAggregatesFilter<"DocumentVersion"> | string
+  storageKey?: Prisma.StringWithAggregatesFilter<"DocumentVersion"> | string
+  mimeType?: Prisma.StringWithAggregatesFilter<"DocumentVersion"> | string
+  fileSize?: Prisma.BigIntWithAggregatesFilter<"DocumentVersion"> | bigint | number
+  uploaderId?: Prisma.UuidWithAggregatesFilter<"DocumentVersion"> | string
+  uploadedAt?: Prisma.DateTimeWithAggregatesFilter<"DocumentVersion"> | Date | string
 }
 
 export type DocumentVersionCreateInput = {
   id?: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploadedAt?: Date | string
   document: Prisma.DocumentCreateNestedOneWithoutVersionsInput
+  uploader: Prisma.UserCreateNestedOneWithoutUploadsInput
   currentFor?: Prisma.DocumentCreateNestedOneWithoutCurrentVersionInput
 }
 
 export type DocumentVersionUncheckedCreateInput = {
   id?: string
   documentId: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploaderId: string
+  uploadedAt?: Date | string
   currentFor?: Prisma.DocumentUncheckedCreateNestedOneWithoutCurrentVersionInput
 }
 
 export type DocumentVersionUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   document?: Prisma.DocumentUpdateOneRequiredWithoutVersionsNestedInput
+  uploader?: Prisma.UserUpdateOneRequiredWithoutUploadsNestedInput
   currentFor?: Prisma.DocumentUpdateOneWithoutCurrentVersionNestedInput
 }
 
 export type DocumentVersionUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   currentFor?: Prisma.DocumentUncheckedUpdateOneWithoutCurrentVersionNestedInput
 }
 
 export type DocumentVersionCreateManyInput = {
   id?: string
   documentId: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploaderId: string
+  uploadedAt?: Date | string
 }
 
 export type DocumentVersionUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentVersionUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentVersionListRelationFilter = {
@@ -258,31 +415,106 @@ export type DocumentVersionListRelationFilter = {
   none?: Prisma.DocumentVersionWhereInput
 }
 
+export type DocumentVersionOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
 export type DocumentVersionNullableScalarRelationFilter = {
   is?: Prisma.DocumentVersionWhereInput | null
   isNot?: Prisma.DocumentVersionWhereInput | null
 }
 
-export type DocumentVersionOrderByRelationAggregateInput = {
-  _count?: Prisma.SortOrder
+export type DocumentVersionDocumentIdVersionNumberCompoundUniqueInput = {
+  documentId: string
+  versionNumber: number
 }
 
 export type DocumentVersionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  versionNumber?: Prisma.SortOrder
+  originalFilename?: Prisma.SortOrder
+  storageKey?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  uploaderId?: Prisma.SortOrder
+  uploadedAt?: Prisma.SortOrder
+}
+
+export type DocumentVersionAvgOrderByAggregateInput = {
+  versionNumber?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
 }
 
 export type DocumentVersionMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  versionNumber?: Prisma.SortOrder
+  originalFilename?: Prisma.SortOrder
+  storageKey?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  uploaderId?: Prisma.SortOrder
+  uploadedAt?: Prisma.SortOrder
 }
 
 export type DocumentVersionMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   documentId?: Prisma.SortOrder
-  createdAt?: Prisma.SortOrder
+  versionNumber?: Prisma.SortOrder
+  originalFilename?: Prisma.SortOrder
+  storageKey?: Prisma.SortOrder
+  mimeType?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+  uploaderId?: Prisma.SortOrder
+  uploadedAt?: Prisma.SortOrder
+}
+
+export type DocumentVersionSumOrderByAggregateInput = {
+  versionNumber?: Prisma.SortOrder
+  fileSize?: Prisma.SortOrder
+}
+
+export type DocumentVersionCreateNestedManyWithoutUploaderInput = {
+  create?: Prisma.XOR<Prisma.DocumentVersionCreateWithoutUploaderInput, Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput> | Prisma.DocumentVersionCreateWithoutUploaderInput[] | Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput | Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput[]
+  createMany?: Prisma.DocumentVersionCreateManyUploaderInputEnvelope
+  connect?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+}
+
+export type DocumentVersionUncheckedCreateNestedManyWithoutUploaderInput = {
+  create?: Prisma.XOR<Prisma.DocumentVersionCreateWithoutUploaderInput, Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput> | Prisma.DocumentVersionCreateWithoutUploaderInput[] | Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput | Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput[]
+  createMany?: Prisma.DocumentVersionCreateManyUploaderInputEnvelope
+  connect?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+}
+
+export type DocumentVersionUpdateManyWithoutUploaderNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentVersionCreateWithoutUploaderInput, Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput> | Prisma.DocumentVersionCreateWithoutUploaderInput[] | Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput | Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput[]
+  upsert?: Prisma.DocumentVersionUpsertWithWhereUniqueWithoutUploaderInput | Prisma.DocumentVersionUpsertWithWhereUniqueWithoutUploaderInput[]
+  createMany?: Prisma.DocumentVersionCreateManyUploaderInputEnvelope
+  set?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  disconnect?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  delete?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  connect?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  update?: Prisma.DocumentVersionUpdateWithWhereUniqueWithoutUploaderInput | Prisma.DocumentVersionUpdateWithWhereUniqueWithoutUploaderInput[]
+  updateMany?: Prisma.DocumentVersionUpdateManyWithWhereWithoutUploaderInput | Prisma.DocumentVersionUpdateManyWithWhereWithoutUploaderInput[]
+  deleteMany?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
+}
+
+export type DocumentVersionUncheckedUpdateManyWithoutUploaderNestedInput = {
+  create?: Prisma.XOR<Prisma.DocumentVersionCreateWithoutUploaderInput, Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput> | Prisma.DocumentVersionCreateWithoutUploaderInput[] | Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput[]
+  connectOrCreate?: Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput | Prisma.DocumentVersionCreateOrConnectWithoutUploaderInput[]
+  upsert?: Prisma.DocumentVersionUpsertWithWhereUniqueWithoutUploaderInput | Prisma.DocumentVersionUpsertWithWhereUniqueWithoutUploaderInput[]
+  createMany?: Prisma.DocumentVersionCreateManyUploaderInputEnvelope
+  set?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  disconnect?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  delete?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  connect?: Prisma.DocumentVersionWhereUniqueInput | Prisma.DocumentVersionWhereUniqueInput[]
+  update?: Prisma.DocumentVersionUpdateWithWhereUniqueWithoutUploaderInput | Prisma.DocumentVersionUpdateWithWhereUniqueWithoutUploaderInput[]
+  updateMany?: Prisma.DocumentVersionUpdateManyWithWhereWithoutUploaderInput | Prisma.DocumentVersionUpdateManyWithWhereWithoutUploaderInput[]
+  deleteMany?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
 }
 
 export type DocumentVersionCreateNestedManyWithoutDocumentInput = {
@@ -343,15 +575,108 @@ export type DocumentVersionUncheckedUpdateManyWithoutDocumentNestedInput = {
   deleteMany?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
 }
 
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type BigIntFieldUpdateOperationsInput = {
+  set?: bigint | number
+  increment?: bigint | number
+  decrement?: bigint | number
+  multiply?: bigint | number
+  divide?: bigint | number
+}
+
+export type DocumentVersionCreateWithoutUploaderInput = {
+  id?: string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploadedAt?: Date | string
+  document: Prisma.DocumentCreateNestedOneWithoutVersionsInput
+  currentFor?: Prisma.DocumentCreateNestedOneWithoutCurrentVersionInput
+}
+
+export type DocumentVersionUncheckedCreateWithoutUploaderInput = {
+  id?: string
+  documentId: string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploadedAt?: Date | string
+  currentFor?: Prisma.DocumentUncheckedCreateNestedOneWithoutCurrentVersionInput
+}
+
+export type DocumentVersionCreateOrConnectWithoutUploaderInput = {
+  where: Prisma.DocumentVersionWhereUniqueInput
+  create: Prisma.XOR<Prisma.DocumentVersionCreateWithoutUploaderInput, Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput>
+}
+
+export type DocumentVersionCreateManyUploaderInputEnvelope = {
+  data: Prisma.DocumentVersionCreateManyUploaderInput | Prisma.DocumentVersionCreateManyUploaderInput[]
+  skipDuplicates?: boolean
+}
+
+export type DocumentVersionUpsertWithWhereUniqueWithoutUploaderInput = {
+  where: Prisma.DocumentVersionWhereUniqueInput
+  update: Prisma.XOR<Prisma.DocumentVersionUpdateWithoutUploaderInput, Prisma.DocumentVersionUncheckedUpdateWithoutUploaderInput>
+  create: Prisma.XOR<Prisma.DocumentVersionCreateWithoutUploaderInput, Prisma.DocumentVersionUncheckedCreateWithoutUploaderInput>
+}
+
+export type DocumentVersionUpdateWithWhereUniqueWithoutUploaderInput = {
+  where: Prisma.DocumentVersionWhereUniqueInput
+  data: Prisma.XOR<Prisma.DocumentVersionUpdateWithoutUploaderInput, Prisma.DocumentVersionUncheckedUpdateWithoutUploaderInput>
+}
+
+export type DocumentVersionUpdateManyWithWhereWithoutUploaderInput = {
+  where: Prisma.DocumentVersionScalarWhereInput
+  data: Prisma.XOR<Prisma.DocumentVersionUpdateManyMutationInput, Prisma.DocumentVersionUncheckedUpdateManyWithoutUploaderInput>
+}
+
+export type DocumentVersionScalarWhereInput = {
+  AND?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
+  OR?: Prisma.DocumentVersionScalarWhereInput[]
+  NOT?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
+  id?: Prisma.UuidFilter<"DocumentVersion"> | string
+  documentId?: Prisma.UuidFilter<"DocumentVersion"> | string
+  versionNumber?: Prisma.IntFilter<"DocumentVersion"> | number
+  originalFilename?: Prisma.StringFilter<"DocumentVersion"> | string
+  storageKey?: Prisma.StringFilter<"DocumentVersion"> | string
+  mimeType?: Prisma.StringFilter<"DocumentVersion"> | string
+  fileSize?: Prisma.BigIntFilter<"DocumentVersion"> | bigint | number
+  uploaderId?: Prisma.UuidFilter<"DocumentVersion"> | string
+  uploadedAt?: Prisma.DateTimeFilter<"DocumentVersion"> | Date | string
+}
+
 export type DocumentVersionCreateWithoutDocumentInput = {
   id?: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploadedAt?: Date | string
+  uploader: Prisma.UserCreateNestedOneWithoutUploadsInput
   currentFor?: Prisma.DocumentCreateNestedOneWithoutCurrentVersionInput
 }
 
 export type DocumentVersionUncheckedCreateWithoutDocumentInput = {
   id?: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploaderId: string
+  uploadedAt?: Date | string
   currentFor?: Prisma.DocumentUncheckedCreateNestedOneWithoutCurrentVersionInput
 }
 
@@ -367,14 +692,26 @@ export type DocumentVersionCreateManyDocumentInputEnvelope = {
 
 export type DocumentVersionCreateWithoutCurrentForInput = {
   id?: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploadedAt?: Date | string
   document: Prisma.DocumentCreateNestedOneWithoutVersionsInput
+  uploader: Prisma.UserCreateNestedOneWithoutUploadsInput
 }
 
 export type DocumentVersionUncheckedCreateWithoutCurrentForInput = {
   id?: string
   documentId: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploaderId: string
+  uploadedAt?: Date | string
 }
 
 export type DocumentVersionCreateOrConnectWithoutCurrentForInput = {
@@ -398,15 +735,6 @@ export type DocumentVersionUpdateManyWithWhereWithoutDocumentInput = {
   data: Prisma.XOR<Prisma.DocumentVersionUpdateManyMutationInput, Prisma.DocumentVersionUncheckedUpdateManyWithoutDocumentInput>
 }
 
-export type DocumentVersionScalarWhereInput = {
-  AND?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
-  OR?: Prisma.DocumentVersionScalarWhereInput[]
-  NOT?: Prisma.DocumentVersionScalarWhereInput | Prisma.DocumentVersionScalarWhereInput[]
-  id?: Prisma.UuidFilter<"DocumentVersion"> | string
-  documentId?: Prisma.UuidFilter<"DocumentVersion"> | string
-  createdAt?: Prisma.DateTimeFilter<"DocumentVersion"> | Date | string
-}
-
 export type DocumentVersionUpsertWithoutCurrentForInput = {
   update: Prisma.XOR<Prisma.DocumentVersionUpdateWithoutCurrentForInput, Prisma.DocumentVersionUncheckedUpdateWithoutCurrentForInput>
   create: Prisma.XOR<Prisma.DocumentVersionCreateWithoutCurrentForInput, Prisma.DocumentVersionUncheckedCreateWithoutCurrentForInput>
@@ -420,36 +748,118 @@ export type DocumentVersionUpdateToOneWithWhereWithoutCurrentForInput = {
 
 export type DocumentVersionUpdateWithoutCurrentForInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   document?: Prisma.DocumentUpdateOneRequiredWithoutVersionsNestedInput
+  uploader?: Prisma.UserUpdateOneRequiredWithoutUploadsNestedInput
 }
 
 export type DocumentVersionUncheckedUpdateWithoutCurrentForInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   documentId?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type DocumentVersionCreateManyUploaderInput = {
+  id?: string
+  documentId: string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploadedAt?: Date | string
+}
+
+export type DocumentVersionUpdateWithoutUploaderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  document?: Prisma.DocumentUpdateOneRequiredWithoutVersionsNestedInput
+  currentFor?: Prisma.DocumentUpdateOneWithoutCurrentVersionNestedInput
+}
+
+export type DocumentVersionUncheckedUpdateWithoutUploaderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  currentFor?: Prisma.DocumentUncheckedUpdateOneWithoutCurrentVersionNestedInput
+}
+
+export type DocumentVersionUncheckedUpdateManyWithoutUploaderInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  documentId?: Prisma.StringFieldUpdateOperationsInput | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type DocumentVersionCreateManyDocumentInput = {
   id?: string
-  createdAt?: Date | string
+  versionNumber: number
+  originalFilename: string
+  storageKey: string
+  mimeType: string
+  fileSize: bigint | number
+  uploaderId: string
+  uploadedAt?: Date | string
 }
 
 export type DocumentVersionUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  uploader?: Prisma.UserUpdateOneRequiredWithoutUploadsNestedInput
   currentFor?: Prisma.DocumentUpdateOneWithoutCurrentVersionNestedInput
 }
 
 export type DocumentVersionUncheckedUpdateWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   currentFor?: Prisma.DocumentUncheckedUpdateOneWithoutCurrentVersionNestedInput
 }
 
 export type DocumentVersionUncheckedUpdateManyWithoutDocumentInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  versionNumber?: Prisma.IntFieldUpdateOperationsInput | number
+  originalFilename?: Prisma.StringFieldUpdateOperationsInput | string
+  storageKey?: Prisma.StringFieldUpdateOperationsInput | string
+  mimeType?: Prisma.StringFieldUpdateOperationsInput | string
+  fileSize?: Prisma.BigIntFieldUpdateOperationsInput | bigint | number
+  uploaderId?: Prisma.StringFieldUpdateOperationsInput | string
+  uploadedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -457,53 +867,90 @@ export type DocumentVersionUncheckedUpdateManyWithoutDocumentInput = {
 export type DocumentVersionSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   documentId?: boolean
-  createdAt?: boolean
+  versionNumber?: boolean
+  originalFilename?: boolean
+  storageKey?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  uploaderId?: boolean
+  uploadedAt?: boolean
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   currentFor?: boolean | Prisma.DocumentVersion$currentForArgs<ExtArgs>
 }, ExtArgs["result"]["documentVersion"]>
 
 export type DocumentVersionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   documentId?: boolean
-  createdAt?: boolean
+  versionNumber?: boolean
+  originalFilename?: boolean
+  storageKey?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  uploaderId?: boolean
+  uploadedAt?: boolean
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentVersion"]>
 
 export type DocumentVersionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   documentId?: boolean
-  createdAt?: boolean
+  versionNumber?: boolean
+  originalFilename?: boolean
+  storageKey?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  uploaderId?: boolean
+  uploadedAt?: boolean
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["documentVersion"]>
 
 export type DocumentVersionSelectScalar = {
   id?: boolean
   documentId?: boolean
-  createdAt?: boolean
+  versionNumber?: boolean
+  originalFilename?: boolean
+  storageKey?: boolean
+  mimeType?: boolean
+  fileSize?: boolean
+  uploaderId?: boolean
+  uploadedAt?: boolean
 }
 
-export type DocumentVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "createdAt", ExtArgs["result"]["documentVersion"]>
+export type DocumentVersionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "documentId" | "versionNumber" | "originalFilename" | "storageKey" | "mimeType" | "fileSize" | "uploaderId" | "uploadedAt", ExtArgs["result"]["documentVersion"]>
 export type DocumentVersionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   currentFor?: boolean | Prisma.DocumentVersion$currentForArgs<ExtArgs>
 }
 export type DocumentVersionIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type DocumentVersionIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   document?: boolean | Prisma.DocumentDefaultArgs<ExtArgs>
+  uploader?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $DocumentVersionPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "DocumentVersion"
   objects: {
     document: Prisma.$DocumentPayload<ExtArgs>
+    uploader: Prisma.$UserPayload<ExtArgs>
     currentFor: Prisma.$DocumentPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     documentId: string
-    createdAt: Date
+    versionNumber: number
+    originalFilename: string
+    storageKey: string
+    mimeType: string
+    fileSize: bigint
+    uploaderId: string
+    uploadedAt: Date
   }, ExtArgs["result"]["documentVersion"]>
   composites: {}
 }
@@ -899,6 +1346,7 @@ readonly fields: DocumentVersionFieldRefs;
 export interface Prisma__DocumentVersionClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   document<T extends Prisma.DocumentDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentDefaultArgs<ExtArgs>>): Prisma.Prisma__DocumentClient<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  uploader<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   currentFor<T extends Prisma.DocumentVersion$currentForArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DocumentVersion$currentForArgs<ExtArgs>>): Prisma.Prisma__DocumentClient<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -931,7 +1379,13 @@ export interface Prisma__DocumentVersionClient<T, Null = never, ExtArgs extends 
 export interface DocumentVersionFieldRefs {
   readonly id: Prisma.FieldRef<"DocumentVersion", 'String'>
   readonly documentId: Prisma.FieldRef<"DocumentVersion", 'String'>
-  readonly createdAt: Prisma.FieldRef<"DocumentVersion", 'DateTime'>
+  readonly versionNumber: Prisma.FieldRef<"DocumentVersion", 'Int'>
+  readonly originalFilename: Prisma.FieldRef<"DocumentVersion", 'String'>
+  readonly storageKey: Prisma.FieldRef<"DocumentVersion", 'String'>
+  readonly mimeType: Prisma.FieldRef<"DocumentVersion", 'String'>
+  readonly fileSize: Prisma.FieldRef<"DocumentVersion", 'BigInt'>
+  readonly uploaderId: Prisma.FieldRef<"DocumentVersion", 'String'>
+  readonly uploadedAt: Prisma.FieldRef<"DocumentVersion", 'DateTime'>
 }
     
 

@@ -112,7 +112,13 @@ export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typ
 export const DocumentVersionScalarFieldEnum = {
   id: 'id',
   documentId: 'documentId',
-  createdAt: 'createdAt'
+  versionNumber: 'versionNumber',
+  originalFilename: 'originalFilename',
+  storageKey: 'storageKey',
+  mimeType: 'mimeType',
+  fileSize: 'fileSize',
+  uploaderId: 'uploaderId',
+  uploadedAt: 'uploadedAt'
 } as const
 
 export type DocumentVersionScalarFieldEnum = (typeof DocumentVersionScalarFieldEnum)[keyof typeof DocumentVersionScalarFieldEnum]
