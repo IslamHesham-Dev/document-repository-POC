@@ -27,3 +27,13 @@ export type Department = Prisma.DepartmentModel
  * 
  */
 export type User = Prisma.UserModel
+/**
+ * Model Document
+ * 
+ */
+export type Document = Prisma.DocumentModel
+/**
+ * Model DocumentVersion
+ * 
+ */
+export type DocumentVersion = Prisma.DocumentVersionModel
