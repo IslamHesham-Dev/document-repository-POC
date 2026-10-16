@@ -2,6 +2,7 @@ import cors from "cors";
 import express from "express";
 
 import { env } from "./config/env.js";
+import { getHealth } from "./health/health.controller.js";
 
 export const app = express();
 
@@ -14,9 +15,4 @@ app.use(
 );
 app.use(express.json());
 
-app.get("/health", (_request, response) => {
-  response.status(200).json({
-    status: "ok",
-    timestamp: new Date().toISOString(),
-  });
-});
+app.get("/health", getHealth);
