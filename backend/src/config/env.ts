@@ -1,5 +1,5 @@
 import { existsSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname, resolve } from "node:path";
 
 import dotenv from "dotenv";
 
@@ -9,6 +9,9 @@ const environmentFiles = [
 ];
 
 const environmentFile = environmentFiles.find(existsSync);
+const environmentDirectory = environmentFile
+  ? dirname(environmentFile)
+  : process.cwd();
 
 if (environmentFile) {
   dotenv.config({ path: environmentFile });
@@ -39,6 +42,6 @@ export const env = Object.freeze({
   frontendApiUrl:
     process.env.FRONTEND_API_URL ?? "http://localhost:3000/api",
   corsOrigin: process.env.CORS_ORIGIN ?? "http://localhost:5173",
-  uploadDir: process.env.UPLOAD_DIR ?? "uploads",
+  uploadDir: resolve(environmentDirectory, process.env.UPLOAD_DIR ?? "uploads"),
   maxFileSize: readPositiveInteger("MAX_FILE_SIZE", 10 * 1024 * 1024),
 });
