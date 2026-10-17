@@ -75,6 +75,47 @@ export function getVersionHistory(userId: string, documentId: string) {
   );
 }
 
+export async function downloadDocumentVersion(
+  userId: string,
+  documentId: string,
+  versionId: string,
+  fallbackFilename: string,
+): Promise<{ blob: Blob; filename: string }> {
+  const response = await fetch(
+    `${apiBaseUrl}/documents/${documentId}/versions/${versionId}/download`,
+    {
+      headers: {
+        "X-User-Id": userId,
+      },
+    },
+  );
+
+  if (!response.ok) {
+    let body: ApiErrorResponse | null = null;
+
+    try {
+      body = (await response.json()) as ApiErrorResponse;
+    } catch {
+      // A non-JSON server response still becomes the same predictable client error.
+    }
+
+    throw new ApiClientError(
+      response.status,
+      body?.error?.code ?? "DOWNLOAD_FAILED",
+      body?.error?.message ?? "The file could not be downloaded",
+    );
+  }
+
+  const disposition = response.headers.get("Content-Disposition");
+  const encodedFilename = disposition?.match(/filename\*=UTF-8''([^;]+)/i)?.[1];
+  const quotedFilename = disposition?.match(/filename="([^"]+)"/i)?.[1];
+  const filename = encodedFilename
+    ? decodeURIComponent(encodedFilename)
+    : quotedFilename ?? fallbackFilename;
+
+  return { blob: await response.blob(), filename };
+}
+
 export function createDocument(
   input: {
     userId: string;
