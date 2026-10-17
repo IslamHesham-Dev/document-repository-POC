@@ -5,11 +5,12 @@ import { useState, type FormEvent } from "react";
 
 import { useCurrentUser } from "@/app/context/current-user-context";
 import { ApiClientError, createDocument } from "@/app/lib/api";
+import {
+  acceptedFileTypes,
+  validateUploadFile,
+} from "@/app/lib/file-validation";
 import { FormField } from "./form-field";
 import { StatusMessage } from "./status-message";
-
-const maximumFileSize = 10 * 1024 * 1024;
-const allowedExtensions = new Set(["pdf", "docx", "txt"]);
 
 type SubmissionState =
   | { status: "idle" }
@@ -21,16 +22,6 @@ function commaSeparated(value: FormDataEntryValue | null): string[] {
   return typeof value === "string"
     ? value.split(",").map((item) => item.trim()).filter(Boolean)
     : [];
-}
-
-function validateFile(file: File): string | null {
-  if (file.size === 0) return "Choose a non-empty file.";
-  if (file.size > maximumFileSize) return "The file must be 10 MB or smaller.";
-  const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
-  if (!allowedExtensions.has(extension)) {
-    return "Choose a PDF, DOCX, or TXT file.";
-  }
-  return null;
 }
 
 export function DocumentUploadForm() {
@@ -56,7 +47,7 @@ export function DocumentUploadForm() {
       setSubmission({ status: "error", message: "Choose a file before uploading." });
       return;
     }
-    const fileError = validateFile(file);
+    const fileError = validateUploadFile(file);
     if (fileError) {
       setSubmission({ status: "error", message: fileError });
       return;
@@ -123,7 +114,7 @@ export function DocumentUploadForm() {
         hint="Required. PDF, DOCX, or UTF-8 text; maximum 10 MB. The server verifies the actual content."
       >
         <input
-          accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+          accept={acceptedFileTypes}
           className="form-control"
           disabled={isSubmitting}
           name="file"

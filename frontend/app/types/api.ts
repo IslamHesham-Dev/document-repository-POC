@@ -94,3 +94,10 @@ export type VersionHistoryResponse = {
     }
   >;
 };
+
+export type CreatedVersionResponse = {
+  version: VersionSummary & {
+    documentId: string;
+    uploaderId: string;
+  };
+};

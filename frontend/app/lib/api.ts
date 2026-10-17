@@ -1,6 +1,7 @@
 import type {
   ApiErrorResponse,
   CreatedDocumentResponse,
+  CreatedVersionResponse,
   DocumentDetailsResponse,
   DocumentSearchResponse,
   PocContextResponse,
@@ -121,6 +122,64 @@ export function createDocument(
           request.status,
           errorBody?.error?.code ?? "UPLOAD_FAILED",
           errorBody?.error?.message ?? "The upload request failed",
+        ),
+      );
+    });
+    request.addEventListener("error", () => {
+      reject(
+        new ApiClientError(
+          0,
+          "NETWORK_ERROR",
+          "The backend could not be reached",
+        ),
+      );
+    });
+    request.send(form);
+  });
+}
+
+export function createDocumentVersion(
+  input: {
+    userId: string;
+    documentId: string;
+    file: File;
+  },
+  onProgress?: (percentage: number) => void,
+): Promise<CreatedVersionResponse> {
+  const form = new FormData();
+  form.append("file", input.file);
+
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open(
+      "POST",
+      `${apiBaseUrl}/documents/${input.documentId}/versions`,
+    );
+    request.setRequestHeader("X-User-Id", input.userId);
+    request.responseType = "json";
+    request.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        onProgress?.(Math.round((event.loaded / event.total) * 100));
+      }
+    });
+    request.addEventListener("load", () => {
+      const body = request.response as
+        | CreatedVersionResponse
+        | ApiErrorResponse
+        | null;
+
+      if (request.status >= 200 && request.status < 300 && body) {
+        onProgress?.(100);
+        resolve(body as CreatedVersionResponse);
+        return;
+      }
+
+      const errorBody = body as ApiErrorResponse | null;
+      reject(
+        new ApiClientError(
+          request.status,
+          errorBody?.error?.code ?? "VERSION_UPLOAD_FAILED",
+          errorBody?.error?.message ?? "The version upload failed",
         ),
       );
     });
