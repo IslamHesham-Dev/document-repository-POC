@@ -4,6 +4,7 @@ import multer from "multer";
 import { env } from "../config/env.js";
 import { createDocument } from "./create-document.controller.js";
 import { createDocumentVersion } from "../versions/create-version.controller.js";
+import { searchDocuments } from "../search/document-search.controller.js";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -17,6 +18,7 @@ const upload = multer({
 
 export const documentRouter = Router();
 
+documentRouter.get("/", searchDocuments);
 documentRouter.post("/", upload.single("file"), createDocument);
 documentRouter.post(
   "/:documentId/versions",
