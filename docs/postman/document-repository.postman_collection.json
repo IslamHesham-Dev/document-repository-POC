@@ -1,0 +1,152 @@
+{
+  "info": {
+    "_postman_id": "24fbf3fc-dd6a-4b46-9423-document-repository",
+    "name": "Document Repository API",
+    "description": "Run in order against the local API. Requests use seeded admin, engineer, and HR users.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "documentId", "value": "" },
+    { "key": "initialVersionId", "value": "" },
+    { "key": "latestVersionId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Health - 200",
+      "request": { "method": "GET", "url": "{{healthUrl}}" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('status is 200', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "Current user - Admin - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{adminUserId}}" }],
+        "url": "{{baseUrl}}/me"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('admin is returned', () => { pm.response.to.have.status(200); pm.expect(pm.response.json().user.role).to.eql('ADMIN'); });"] } }]
+    },
+    {
+      "name": "Current user - Engineer - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{engineerUserId}}" }],
+        "url": "{{baseUrl}}/me"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('engineer is returned', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "Current user - HR - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{hrUserId}}" }],
+        "url": "{{baseUrl}}/me"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('HR user is returned', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "Upload document as engineer - 201",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "X-User-Id", "value": "{{engineerUserId}}" }],
+        "body": {
+          "mode": "formdata",
+          "formdata": [
+            { "key": "file", "type": "file", "src": "{{sampleFilePath}}" },
+            { "key": "title", "type": "text", "value": "Postman Policy Verification" },
+            { "key": "tags", "type": "text", "value": "[\"postman\",\"policy\"]" },
+            { "key": "permittedDepartmentIds", "type": "text", "value": "[\"{{hrDepartmentId}}\"]" }
+          ]
+        },
+        "url": "{{baseUrl}}/documents"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('document is created', () => pm.response.to.have.status(201));",
+        "const body = pm.response.json();",
+        "pm.collectionVariables.set('documentId', body.document.id);",
+        "pm.collectionVariables.set('initialVersionId', body.document.currentVersion.id);"
+      ] } }]
+    },
+    {
+      "name": "Combined search as HR - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{hrUserId}}" }],
+        "url": "{{baseUrl}}/documents?title=policy&tag=postman&uploaderId={{engineerUserId}}&page=1&pageSize=20&sortBy=title&sortOrder=asc"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('shared document is searchable', () => { pm.response.to.have.status(200); pm.expect(pm.response.json().documents.some(d => d.id === pm.collectionVariables.get('documentId'))).to.be.true; });"] } }]
+    },
+    {
+      "name": "Document details as HR - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{hrUserId}}" }],
+        "url": "{{baseUrl}}/documents/{{documentId}}"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('department viewer can read details', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "Update metadata as engineer - 200",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "X-User-Id", "value": "{{engineerUserId}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Postman Policy Verification Updated\",\n  \"tags\": [\"postman\", \"verified\"],\n  \"permittedDepartmentIds\": [\"{{hrDepartmentId}}\"]\n}" },
+        "url": "{{baseUrl}}/documents/{{documentId}}"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('metadata is updated without a new version', () => { pm.response.to.have.status(200); pm.expect(pm.response.json().document.currentVersion.versionNumber).to.eql(1); });"] } }]
+    },
+    {
+      "name": "Upload version 2 as engineer - 201",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "X-User-Id", "value": "{{engineerUserId}}" }],
+        "body": { "mode": "formdata", "formdata": [{ "key": "file", "type": "file", "src": "{{newVersionFilePath}}" }] },
+        "url": "{{baseUrl}}/documents/{{documentId}}/versions"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('version 2 is created', () => { pm.response.to.have.status(201); pm.expect(pm.response.json().version.versionNumber).to.eql(2); });",
+        "pm.collectionVariables.set('latestVersionId', pm.response.json().version.id);"
+      ] } }]
+    },
+    {
+      "name": "Version history as HR - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{hrUserId}}" }],
+        "url": "{{baseUrl}}/documents/{{documentId}}/versions"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('history is newest first and retains v1', () => { pm.response.to.have.status(200); pm.expect(pm.response.json().versions.map(v => v.versionNumber)).to.eql([2, 1]); });"] } }]
+    },
+    {
+      "name": "Download old version 1 as HR - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{hrUserId}}" }],
+        "url": "{{baseUrl}}/documents/{{documentId}}/versions/{{initialVersionId}}/download",
+        "description": "Use Save Response to file to open the downloaded version manually."
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('old version remains downloadable', () => { pm.response.to.have.status(200); pm.expect(pm.response.headers.get('Content-Type')).to.include('text/plain'); pm.expect(pm.response.text()).to.include('version 1'); });"] } }]
+    },
+    {
+      "name": "Download latest version as admin - 200",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{adminUserId}}" }],
+        "url": "{{baseUrl}}/documents/{{documentId}}/versions/{{latestVersionId}}/download",
+        "description": "Use Save Response to file to open the downloaded version manually."
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('latest file opens with original filename', () => { pm.response.to.have.status(200); pm.expect(pm.response.headers.get('Content-Disposition')).to.include('manual-v2.txt'); pm.expect(pm.response.text()).to.include('version 2'); });"] } }]
+    },
+    {
+      "name": "Unknown version download as admin - 404",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "X-User-Id", "value": "{{adminUserId}}" }],
+        "url": "{{baseUrl}}/documents/{{documentId}}/versions/00000000-0000-4000-8000-000000000000/download"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('unknown version is 404', () => { pm.response.to.have.status(404); pm.expect(pm.response.json().error.code).to.eql('DOCUMENT_VERSION_NOT_FOUND'); });"] } }]
+    }
+  ]
+}
