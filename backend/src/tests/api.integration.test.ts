@@ -21,7 +21,8 @@ test("document repository API integration", async (context) => {
     server.once("error", reject);
   });
   const address = server.address() as AddressInfo;
-  const apiUrl = `http://127.0.0.1:${address.port}/api/documents`;
+  const apiRoot = `http://127.0.0.1:${address.port}/api`;
+  const apiUrl = `${apiRoot}/documents`;
 
   async function readJson(response: Response): Promise<Record<string, any>> {
     return (await response.json()) as Record<string, any>;
@@ -82,6 +83,21 @@ test("document repository API integration", async (context) => {
       }),
     ]);
     fixtureUserIds.push(admin.id, uploader.id, departmentViewer.id, outsider.id);
+
+    await context.test("POC context lists development identities", async () => {
+      const response = await fetch(`${apiRoot}/poc-context`);
+      const body = await readJson(response);
+      assert.equal(response.status, 200);
+      assert.equal(body.identityMechanism, "POC_X_USER_ID");
+      assert.ok(
+        body.users.some((user: { id: string }) => user.id === uploader.id),
+      );
+      assert.ok(
+        body.departments.some(
+          (department: { id: string }) => department.id === sharedDepartment.id,
+        ),
+      );
+    });
 
     await context.test("successful upload", async () => {
       const form = new FormData();

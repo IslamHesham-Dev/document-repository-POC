@@ -1,15 +1,20 @@
 "use client";
 
+import Link from "next/link";
 import { useState, type FormEvent } from "react";
 
+import { useCurrentUser } from "@/app/context/current-user-context";
 import { ApiClientError, createDocument } from "@/app/lib/api";
 import { FormField } from "./form-field";
 import { StatusMessage } from "./status-message";
 
+const maximumFileSize = 10 * 1024 * 1024;
+const allowedExtensions = new Set(["pdf", "docx", "txt"]);
+
 type SubmissionState =
   | { status: "idle" }
-  | { status: "submitting" }
-  | { status: "success"; message: string }
+  | { status: "submitting"; progress: number }
+  | { status: "success"; documentId: string; title: string }
   | { status: "error"; message: string };
 
 function commaSeparated(value: FormDataEntryValue | null): string[] {
@@ -18,72 +23,190 @@ function commaSeparated(value: FormDataEntryValue | null): string[] {
     : [];
 }
 
+function validateFile(file: File): string | null {
+  if (file.size === 0) return "Choose a non-empty file.";
+  if (file.size > maximumFileSize) return "The file must be 10 MB or smaller.";
+  const extension = file.name.split(".").pop()?.toLowerCase() ?? "";
+  if (!allowedExtensions.has(extension)) {
+    return "Choose a PDF, DOCX, or TXT file.";
+  }
+  return null;
+}
+
 export function DocumentUploadForm() {
+  const { currentUser, departments, isLoading } = useCurrentUser();
   const [submission, setSubmission] = useState<SubmissionState>({ status: "idle" });
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
     const values = new FormData(form);
+    const title = String(values.get("title") ?? "").trim();
     const file = values.get("file");
 
-    if (!(file instanceof File) || file.size === 0) {
+    if (!currentUser) {
+      setSubmission({ status: "error", message: "Select a POC user before uploading." });
+      return;
+    }
+    if (!title) {
+      setSubmission({ status: "error", message: "Document title is required." });
+      return;
+    }
+    if (!(file instanceof File)) {
       setSubmission({ status: "error", message: "Choose a file before uploading." });
       return;
     }
+    const fileError = validateFile(file);
+    if (fileError) {
+      setSubmission({ status: "error", message: fileError });
+      return;
+    }
 
-    setSubmission({ status: "submitting" });
+    setSubmission({ status: "submitting", progress: 0 });
 
     try {
-      const result = await createDocument({
-        userId: String(values.get("userId") ?? "").trim(),
-        title: String(values.get("title") ?? ""),
-        file,
-        tags: commaSeparated(values.get("tags")),
-        permittedDepartmentIds: commaSeparated(values.get("departments")),
-      });
+      const result = await createDocument(
+        {
+          userId: currentUser.id,
+          title,
+          file,
+          tags: commaSeparated(values.get("tags")),
+          permittedDepartmentIds: values
+            .getAll("permittedDepartmentIds")
+            .map(String),
+        },
+        (progress) => setSubmission({ status: "submitting", progress }),
+      );
       form.reset();
       setSubmission({
         status: "success",
-        message: `Created “${result.document.title}” as version 1.`,
+        documentId: result.document.id,
+        title: result.document.title,
       });
     } catch (error: unknown) {
       setSubmission({
         status: "error",
         message:
           error instanceof ApiClientError
-            ? error.message
+            ? `${error.code}: ${error.message}`
             : "The upload could not be completed.",
       });
     }
   }
 
+  const isSubmitting = submission.status === "submitting";
+
   return (
-    <form className="grid gap-5" onSubmit={handleSubmit}>
-      <FormField label="Current user ID" hint="Use a seeded user UUID for the POC X-User-Id header.">
-        <input className="form-control" name="userId" required type="text" />
+    <form className="grid gap-6" onSubmit={handleSubmit} noValidate>
+      <StatusMessage
+        tone="info"
+        message={
+          currentUser
+            ? `Uploading as ${currentUser.name} (${currentUser.role}, ${currentUser.department.name}). The API receives this identity through X-User-Id.`
+            : "Waiting for the POC user selector."
+        }
+      />
+
+      <FormField label="Document title" hint="Required; up to 255 characters.">
+        <input
+          className="form-control"
+          disabled={isSubmitting}
+          maxLength={255}
+          name="title"
+          required
+          type="text"
+        />
       </FormField>
-      <FormField label="Document title">
-        <input className="form-control" maxLength={255} name="title" required type="text" />
+
+      <FormField
+        label="File"
+        hint="Required. PDF, DOCX, or UTF-8 text; maximum 10 MB. The server verifies the actual content."
+      >
+        <input
+          accept=".pdf,.docx,.txt,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain"
+          className="form-control"
+          disabled={isSubmitting}
+          name="file"
+          required
+          type="file"
+        />
       </FormField>
-      <FormField label="File" hint="PDF, DOCX, or UTF-8 text; maximum 10 MB.">
-        <input className="form-control" name="file" required type="file" />
+
+      <FormField label="Tags" hint="Optional tags separated with commas.">
+        <input
+          className="form-control"
+          disabled={isSubmitting}
+          name="tags"
+          placeholder="policy, finance, confidential"
+          type="text"
+        />
       </FormField>
-      <FormField label="Tags" hint="Optional, separated with commas.">
-        <input className="form-control" name="tags" placeholder="policy, finance" type="text" />
-      </FormField>
-      <FormField label="Permitted department IDs" hint="Optional UUIDs separated with commas.">
-        <input className="form-control" name="departments" type="text" />
-      </FormField>
+
+      <fieldset className="grid gap-3" disabled={isSubmitting || isLoading}>
+        <legend className="text-sm font-bold text-slate-700">
+          Permitted departments
+        </legend>
+        <p className="text-sm text-slate-500">
+          Optional. Leaving every department clear keeps the document private to
+          its uploader and administrators.
+        </p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          {departments.map((department) => (
+            <label
+              className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700"
+              key={department.id}
+            >
+              <input
+                className="size-4 accent-teal-700"
+                name="permittedDepartmentIds"
+                type="checkbox"
+                value={department.id}
+              />
+              {department.name}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      {isSubmitting ? (
+        <div aria-live="polite" className="grid gap-2">
+          <div className="flex justify-between text-sm font-semibold text-slate-600">
+            <span>Uploading…</span>
+            <span>{submission.progress}%</span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+            <div
+              className="h-full rounded-full bg-teal-600 transition-[width]"
+              style={{ width: `${submission.progress}%` }}
+            />
+          </div>
+        </div>
+      ) : null}
+
       <button
-        className="button w-fit bg-teal-700 text-white hover:bg-teal-800 disabled:cursor-wait disabled:opacity-60"
-        disabled={submission.status === "submitting"}
+        className="button w-fit bg-teal-700 text-white hover:bg-teal-800 disabled:cursor-not-allowed disabled:opacity-60"
+        disabled={isSubmitting || isLoading || !currentUser}
         type="submit"
       >
-        {submission.status === "submitting" ? "Uploading…" : "Upload document"}
+        {isSubmitting ? "Uploading…" : "Upload document"}
       </button>
-      {submission.status === "success" || submission.status === "error" ? (
-        <StatusMessage message={submission.message} tone={submission.status} />
+
+      {submission.status === "error" ? (
+        <StatusMessage message={submission.message} tone="error" />
+      ) : null}
+      {submission.status === "success" ? (
+        <div className="grid gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-4 text-emerald-950" role="status">
+          <p>
+            <strong>Upload complete.</strong> “{submission.title}” was created as
+            version 1.
+          </p>
+          <Link
+            className="w-fit font-bold text-emerald-800 underline underline-offset-4"
+            href={`/documents/${submission.documentId}`}
+          >
+            Open the created document
+          </Link>
+        </div>
       ) : null}
     </form>
   );

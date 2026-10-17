@@ -10,6 +10,7 @@ import {
 import { getHealth } from "./health/health.controller.js";
 import { loadCurrentUser } from "./middleware/user-context.middleware.js";
 import { getCurrentUser } from "./users/current-user.controller.js";
+import { getPocContext } from "./users/poc-context.controller.js";
 
 export const app = express();
 
@@ -23,6 +24,7 @@ app.use(
 app.use(express.json());
 
 app.get("/health", getHealth);
+app.get("/api/poc-context", getPocContext);
 
 app.use("/api", loadCurrentUser);
 app.get("/api/me", getCurrentUser);

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { AppShell } from "@/app/components/app-shell";
+import { CurrentUserProvider } from "@/app/context/current-user-context";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +16,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en">
       <body>
-        <AppShell>{children}</AppShell>
+        <CurrentUserProvider>
+          <AppShell>{children}</AppShell>
+        </CurrentUserProvider>
       </body>
     </html>
   );

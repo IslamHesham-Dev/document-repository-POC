@@ -3,6 +3,7 @@ import type {
   CreatedDocumentResponse,
   DocumentDetailsResponse,
   DocumentSearchResponse,
+  PocContextResponse,
   VersionHistoryResponse,
 } from "@/app/types/api";
 import { apiBaseUrl } from "./config";
@@ -16,6 +17,20 @@ export class ApiClientError extends Error {
     super(message);
     this.name = "ApiClientError";
   }
+}
+
+export async function getPocContext(): Promise<PocContextResponse> {
+  const response = await fetch(`${apiBaseUrl}/poc-context`);
+
+  if (!response.ok) {
+    throw new ApiClientError(
+      response.status,
+      "POC_CONTEXT_FAILED",
+      "The development users could not be loaded",
+    );
+  }
+
+  return (await response.json()) as PocContextResponse;
 }
 
 async function apiRequest<T>(
@@ -59,13 +74,16 @@ export function getVersionHistory(userId: string, documentId: string) {
   );
 }
 
-export function createDocument(input: {
-  userId: string;
-  title: string;
-  file: File;
-  tags: string[];
-  permittedDepartmentIds: string[];
-}) {
+export function createDocument(
+  input: {
+    userId: string;
+    title: string;
+    file: File;
+    tags: string[];
+    permittedDepartmentIds: string[];
+  },
+  onProgress?: (percentage: number) => void,
+): Promise<CreatedDocumentResponse> {
   const form = new FormData();
   form.append("file", input.file);
   form.append("title", input.title);
@@ -75,8 +93,46 @@ export function createDocument(input: {
     JSON.stringify(input.permittedDepartmentIds),
   );
 
-  return apiRequest<CreatedDocumentResponse>("/documents", input.userId, {
-    method: "POST",
-    body: form,
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.open("POST", `${apiBaseUrl}/documents`);
+    request.setRequestHeader("X-User-Id", input.userId);
+    request.responseType = "json";
+    request.upload.addEventListener("progress", (event) => {
+      if (event.lengthComputable) {
+        onProgress?.(Math.round((event.loaded / event.total) * 100));
+      }
+    });
+    request.addEventListener("load", () => {
+      const body = request.response as
+        | CreatedDocumentResponse
+        | ApiErrorResponse
+        | null;
+
+      if (request.status >= 200 && request.status < 300 && body) {
+        onProgress?.(100);
+        resolve(body as CreatedDocumentResponse);
+        return;
+      }
+
+      const errorBody = body as ApiErrorResponse | null;
+      reject(
+        new ApiClientError(
+          request.status,
+          errorBody?.error?.code ?? "UPLOAD_FAILED",
+          errorBody?.error?.message ?? "The upload request failed",
+        ),
+      );
+    });
+    request.addEventListener("error", () => {
+      reject(
+        new ApiClientError(
+          0,
+          "NETWORK_ERROR",
+          "The backend could not be reached",
+        ),
+      );
+    });
+    request.send(form);
   });
 }

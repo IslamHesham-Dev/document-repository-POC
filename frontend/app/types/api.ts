@@ -5,6 +5,23 @@ export type ApiErrorResponse = {
   };
 };
 
+export type DepartmentSummary = {
+  id: string;
+  name: string;
+};
+
+export type DevelopmentUser = UserSummary & {
+  role: "EMPLOYEE" | "ADMIN";
+  department: DepartmentSummary;
+};
+
+export type PocContextResponse = {
+  identityMechanism: "POC_X_USER_ID";
+  warning: string;
+  users: DevelopmentUser[];
+  departments: DepartmentSummary[];
+};
+
 export type UserSummary = {
   id: string;
   name: string;
