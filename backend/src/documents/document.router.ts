@@ -8,6 +8,7 @@ import { searchDocuments } from "../search/document-search.controller.js";
 import { getVersionHistory } from "../versions/version-history.controller.js";
 import { getDocumentDetails } from "./document-details.controller.js";
 import { downloadDocumentVersion } from "../versions/version-download.controller.js";
+import { updateDocumentMetadata } from "./update-document-metadata.controller.js";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -28,6 +29,7 @@ documentRouter.get(
 );
 documentRouter.get("/:documentId/versions", getVersionHistory);
 documentRouter.get("/:documentId", getDocumentDetails);
+documentRouter.patch("/:documentId", updateDocumentMetadata);
 documentRouter.post("/", upload.single("file"), createDocument);
 documentRouter.post(
   "/:documentId/versions",

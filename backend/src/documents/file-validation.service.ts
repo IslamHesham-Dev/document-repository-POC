@@ -9,32 +9,11 @@ import {
   type ValidatedFile,
   type ValidatedUpload,
 } from "./file-validation.types.js";
+import { validateDocumentTitle } from "./document-metadata.validation.js";
 
 const allowedMimeTypes = new Set<string>(
   ALLOWED_FILE_TYPES.map(({ mimeType }) => mimeType),
 );
-
-function validateTitle(value: unknown): string {
-  if (typeof value !== "string") {
-    throw new AppError(
-      400,
-      "INVALID_DOCUMENT_TITLE",
-      "Document title must be a string",
-    );
-  }
-
-  const title = value.trim().replace(/\s+/g, " ");
-
-  if (title.length === 0 || title.length > 255) {
-    throw new AppError(
-      400,
-      "INVALID_DOCUMENT_TITLE",
-      "Document title must contain between 1 and 255 characters",
-    );
-  }
-
-  return title;
-}
 
 function validateOriginalFilename(value: unknown): string {
   if (
@@ -130,7 +109,7 @@ export class FileValidationService {
       content,
       metadata.originalFilename,
     );
-    const title = validateTitle(metadata.title);
+    const title = validateDocumentTitle(metadata.title);
 
     return {
       ...validatedFile,

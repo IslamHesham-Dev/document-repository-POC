@@ -22,6 +22,14 @@ export type CreateDocumentVersionRecordInput = {
   uploaderId: string;
 };
 
+export type UpdateDocumentMetadataRecordInput = {
+  accessScope?: "RESTRICTED" | "ALL_DEPARTMENTS";
+  documentId: string;
+  permittedDepartmentIds?: string[];
+  tags?: string[];
+  title?: string;
+};
+
 export class DocumentRepository {
   public findActiveById(documentId: string) {
     return prisma.document.findFirst({
@@ -202,6 +210,87 @@ export class DocumentRepository {
       });
 
       return version;
+    });
+  }
+
+  public updateMetadata(input: UpdateDocumentMetadataRecordInput) {
+    return prisma.$transaction(async (transaction) => {
+      if (input.permittedDepartmentIds !== undefined) {
+        const departments = await transaction.department.findMany({
+          where: { id: { in: input.permittedDepartmentIds } },
+          select: { id: true },
+        });
+
+        if (departments.length !== input.permittedDepartmentIds.length) {
+          throw new AppError(
+            400,
+            "UNKNOWN_DEPARTMENT",
+            "One or more permitted departments do not exist",
+          );
+        }
+      }
+
+      if (input.tags !== undefined) {
+        const tags: Array<{ id: string }> = [];
+
+        for (const name of input.tags) {
+          tags.push(
+            await transaction.tag.upsert({
+              where: { name },
+              update: {},
+              create: { name },
+              select: { id: true },
+            }),
+          );
+        }
+
+        await transaction.documentTag.deleteMany({
+          where: { documentId: input.documentId },
+        });
+
+        if (tags.length > 0) {
+          await transaction.documentTag.createMany({
+            data: tags.map(({ id: tagId }) => ({
+              documentId: input.documentId,
+              tagId,
+            })),
+          });
+        }
+      }
+
+      if (
+        input.permittedDepartmentIds !== undefined ||
+        input.accessScope === "ALL_DEPARTMENTS"
+      ) {
+        await transaction.documentDepartmentPermission.deleteMany({
+          where: { documentId: input.documentId },
+        });
+
+        if (
+          input.accessScope !== "ALL_DEPARTMENTS" &&
+          input.permittedDepartmentIds &&
+          input.permittedDepartmentIds.length > 0
+        ) {
+          await transaction.documentDepartmentPermission.createMany({
+            data: input.permittedDepartmentIds.map((departmentId) => ({
+              documentId: input.documentId,
+              departmentId,
+            })),
+          });
+        }
+      }
+
+      return transaction.document.update({
+        where: { id: input.documentId },
+        data: {
+          ...(input.title === undefined ? {} : { title: input.title }),
+          ...(input.accessScope === undefined
+            ? {}
+            : { accessScope: input.accessScope }),
+          updatedAt: new Date(),
+        },
+        select: { id: true, updatedAt: true },
+      });
     });
   }
 }
