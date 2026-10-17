@@ -11,7 +11,9 @@ Use `GET /api/documents/:documentId`.
 The response includes the title, uploader, normalized tags, access scope,
 permitted departments, current version, creation and update dates, and safe
 download information. The download `href` identifies the API endpoint for the
-current file; it is not a filesystem path.
+current file using
+`/api/documents/:documentId/versions/:versionId/download`; it is not a
+filesystem path.
 
 ## Version history
 

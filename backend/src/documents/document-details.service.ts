@@ -81,7 +81,7 @@ export class DocumentDetailsService {
         createdAt: document.createdAt.toISOString(),
         updatedAt: document.updatedAt.toISOString(),
         download: {
-          href: `/api/documents/${document.id}/download`,
+          href: `/api/documents/${document.id}/versions/${currentVersion.id}/download`,
           filename: currentVersion.originalFilename,
           mimeType: currentVersion.mimeType,
           fileSize: currentVersion.fileSize,

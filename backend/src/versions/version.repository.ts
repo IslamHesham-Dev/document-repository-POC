@@ -1,6 +1,25 @@
 import { prisma } from "../config/prisma.js";
 
 export class VersionRepository {
+  public findDownloadByDocumentAndVersion(
+    documentId: string,
+    versionId: string,
+  ) {
+    return prisma.documentVersion.findFirst({
+      where: {
+        id: versionId,
+        documentId,
+      },
+      select: {
+        id: true,
+        originalFilename: true,
+        storageKey: true,
+        mimeType: true,
+        fileSize: true,
+      },
+    });
+  }
+
   public findHistoryByDocumentId(documentId: string) {
     return prisma.documentVersion.findMany({
       where: { documentId },

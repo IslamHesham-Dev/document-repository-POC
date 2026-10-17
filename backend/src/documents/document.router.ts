@@ -7,6 +7,7 @@ import { createDocumentVersion } from "../versions/create-version.controller.js"
 import { searchDocuments } from "../search/document-search.controller.js";
 import { getVersionHistory } from "../versions/version-history.controller.js";
 import { getDocumentDetails } from "./document-details.controller.js";
+import { downloadDocumentVersion } from "../versions/version-download.controller.js";
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -21,6 +22,10 @@ const upload = multer({
 export const documentRouter = Router();
 
 documentRouter.get("/", searchDocuments);
+documentRouter.get(
+  "/:documentId/versions/:versionId/download",
+  downloadDocumentVersion,
+);
 documentRouter.get("/:documentId/versions", getVersionHistory);
 documentRouter.get("/:documentId", getDocumentDetails);
 documentRouter.post("/", upload.single("file"), createDocument);
