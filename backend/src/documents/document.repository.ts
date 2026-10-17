@@ -1,5 +1,6 @@
 import { prisma } from "../config/prisma.js";
 import { AppError } from "../errors/app-error.js";
+import { calculateNextVersionNumber } from "../versions/version-number.js";
 
 export type CreateDocumentRecordInput = {
   accessScope: "RESTRICTED" | "ALL_DEPARTMENTS";
@@ -170,14 +171,12 @@ export class DocumentRepository {
 
   public createVersionAndSetCurrent(input: CreateDocumentVersionRecordInput) {
     return prisma.$transaction(async (transaction) => {
-      const lockedDocuments = await transaction.$queryRaw<Array<{ id: string }>>`
-        SELECT id
-        FROM documents
-        WHERE id = ${input.documentId}::uuid AND deleted_at IS NULL
-        FOR UPDATE
-      `;
+      const lockedDocuments = await transaction.document.updateMany({
+        where: { id: input.documentId, deletedAt: null },
+        data: { updatedAt: new Date() },
+      });
 
-      if (lockedDocuments.length === 0) {
+      if (lockedDocuments.count === 0) {
         throw new AppError(
           404,
           "DOCUMENT_NOT_FOUND",
@@ -189,8 +188,9 @@ export class DocumentRepository {
         where: { documentId: input.documentId },
         _max: { versionNumber: true },
       });
-      const nextVersionNumber =
-        (latestVersion._max.versionNumber ?? 0) + 1;
+      const nextVersionNumber = calculateNextVersionNumber(
+        latestVersion._max.versionNumber,
+      );
 
       const version = await transaction.documentVersion.create({
         data: {
