@@ -9,6 +9,7 @@ export class PermissionRepository {
     const document = await prisma.document.findFirst({
       where: {
         id: documentId,
+        deletedAt: null,
         ...accessWhere,
       },
       select: { id: true },

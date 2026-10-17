@@ -30,6 +30,40 @@ export class DocumentRepository {
     });
   }
 
+  public findDetailsById(documentId: string) {
+    return prisma.document.findFirst({
+      where: { id: documentId, deletedAt: null },
+      include: {
+        uploader: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        tags: {
+          include: { tag: true },
+          orderBy: { tag: { name: "asc" } },
+        },
+        departmentPermissions: {
+          include: { department: true },
+          orderBy: { department: { name: "asc" } },
+        },
+        currentVersion: {
+          select: {
+            id: true,
+            versionNumber: true,
+            originalFilename: true,
+            mimeType: true,
+            fileSize: true,
+            uploaderId: true,
+            uploadedAt: true,
+          },
+        },
+      },
+    });
+  }
+
   public createWithInitialVersion(input: CreateDocumentRecordInput) {
     return prisma.$transaction(async (transaction) => {
       if (input.permittedDepartmentIds.length > 0) {
