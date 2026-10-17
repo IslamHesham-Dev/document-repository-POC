@@ -19,6 +19,9 @@ app.use(
   cors({
     origin: env.corsOrigin,
     credentials: true,
+    methods: ["GET", "POST", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "X-User-Id"],
+    exposedHeaders: ["Content-Disposition", "Content-Length"],
   }),
 );
 app.use(express.json());
