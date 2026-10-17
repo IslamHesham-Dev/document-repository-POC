@@ -40,6 +40,19 @@ export class PermissionService {
     );
   }
 
+  public getModifiableDocumentWhere(
+    user: CurrentUser,
+  ): Prisma.DocumentWhereInput {
+    return user.role === "ADMIN" ? {} : { uploaderId: user.id };
+  }
+
+  public canModifyDocument(user: CurrentUser, documentId: string) {
+    return this.permissionRepository.canAccessDocument(
+      documentId,
+      this.getModifiableDocumentWhere(user),
+    );
+  }
+
   public async requireDocumentAccess(
     user: CurrentUser,
     documentId: string,
@@ -51,6 +64,21 @@ export class PermissionService {
         403,
         "DOCUMENT_ACCESS_DENIED",
         "You do not have permission to access this document",
+      );
+    }
+  }
+
+  public async requireDocumentModification(
+    user: CurrentUser,
+    documentId: string,
+  ): Promise<void> {
+    const canModify = await this.canModifyDocument(user, documentId);
+
+    if (!canModify) {
+      throw new AppError(
+        403,
+        "DOCUMENT_MODIFICATION_DENIED",
+        "You do not have permission to modify this document",
       );
     }
   }

@@ -21,10 +21,13 @@ export type RawUploadMetadata = {
   title: unknown;
 };
 
-export type ValidatedUpload = {
+export type ValidatedFile = {
   content: Buffer;
   fileSize: number;
   mimeType: AllowedMimeType;
   originalFilename: string;
+};
+
+export type ValidatedUpload = ValidatedFile & {
   title: string;
 };

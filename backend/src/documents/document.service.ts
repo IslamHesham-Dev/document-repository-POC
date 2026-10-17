@@ -6,6 +6,7 @@ import type {
 } from "./create-document.types.js";
 import { normalizeTagName } from "../tags/tag.normalizer.js";
 import { storageService, type StorageService } from "../storage/index.js";
+import { AppError } from "../errors/app-error.js";
 
 export class DocumentService {
   public constructor(
@@ -90,7 +91,16 @@ export class DocumentService {
         console.error("Failed to remove an orphaned uploaded file", cleanupError);
       }
 
-      throw error;
+      if (error instanceof AppError) {
+        throw error;
+      }
+
+      console.error("Failed to create document metadata", error);
+      throw new AppError(
+        500,
+        "DOCUMENT_UPLOAD_FAILED",
+        "The document could not be created",
+      );
     }
   }
 }

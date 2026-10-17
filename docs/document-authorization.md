@@ -18,3 +18,16 @@ All document features must reuse these integration points:
 | File viewing and downloads | Run `requireDocumentAccess` before resolving or streaming a storage key. |
 
 Controllers and repositories must not recreate these rules independently.
+
+## Modification rules
+
+Viewing permission does not automatically allow editing. Only these users may
+upload a new version:
+
+1. An administrator.
+2. The document's original uploader.
+
+Employees who can view a document through their department or through
+`ALL_DEPARTMENTS` receive `403 DOCUMENT_MODIFICATION_DENIED` if they try to
+upload a version. Version upload uses
+`PermissionService.requireDocumentModification`, keeping this rule reusable.

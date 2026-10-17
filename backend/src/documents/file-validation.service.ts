@@ -6,6 +6,7 @@ import {
   ALLOWED_FILE_TYPES,
   type AllowedMimeType,
   type RawUploadMetadata,
+  type ValidatedFile,
   type ValidatedUpload,
 } from "./file-validation.types.js";
 
@@ -94,10 +95,10 @@ async function detectMimeType(content: Buffer): Promise<AllowedMimeType> {
 }
 
 export class FileValidationService {
-  public async validate(
+  public async validateFile(
     content: Buffer,
-    metadata: RawUploadMetadata,
-  ): Promise<ValidatedUpload> {
+    originalFilenameValue: unknown,
+  ): Promise<ValidatedFile> {
     if (content.length === 0) {
       throw new AppError(400, "EMPTY_FILE", "Uploaded files cannot be empty");
     }
@@ -110,10 +111,7 @@ export class FileValidationService {
       );
     }
 
-    const title = validateTitle(metadata.title);
-    const originalFilename = validateOriginalFilename(
-      metadata.originalFilename,
-    );
+    const originalFilename = validateOriginalFilename(originalFilenameValue);
     const mimeType = await detectMimeType(content);
 
     return {
@@ -121,6 +119,21 @@ export class FileValidationService {
       fileSize: content.length,
       mimeType,
       originalFilename,
+    };
+  }
+
+  public async validate(
+    content: Buffer,
+    metadata: RawUploadMetadata,
+  ): Promise<ValidatedUpload> {
+    const validatedFile = await this.validateFile(
+      content,
+      metadata.originalFilename,
+    );
+    const title = validateTitle(metadata.title);
+
+    return {
+      ...validatedFile,
       title,
     };
   }
