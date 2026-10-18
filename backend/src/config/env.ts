@@ -33,12 +33,20 @@ function readPositiveInteger(name: string, fallback: number): number {
   return value;
 }
 
+function readRequiredString(name: string): string {
+  const value = process.env[name]?.trim();
+
+  if (!value) {
+    throw new Error(`${name} is required.`);
+  }
+
+  return value;
+}
+
 export const env = Object.freeze({
   nodeEnv: process.env.NODE_ENV ?? "development",
   backendPort: readPositiveInteger("BACKEND_PORT", 3000),
-  databaseUrl:
-    process.env.DATABASE_URL ??
-    "postgresql://document_user:document_password@localhost:5432/document_repository",
+  databaseUrl: readRequiredString("DATABASE_URL"),
   frontendApiUrl:
     process.env.FRONTEND_API_URL ?? "http://localhost:3000/api",
   corsOrigin: process.env.CORS_ORIGIN ?? "http://localhost:5173",

@@ -33,7 +33,6 @@ export type CreatedDocumentResponse = {
       id: string;
       versionNumber: number;
       originalFilename: string;
-      storageKey: string;
       mimeType: string;
       fileSize: number;
       uploadedAt: string;

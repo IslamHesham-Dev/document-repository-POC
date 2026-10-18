@@ -120,6 +120,11 @@ test("document repository API integration", async (context) => {
       const body = await readJson(response);
       assert.equal(response.status, 201);
       assert.equal(body.document.currentVersion.versionNumber, 1);
+      assert.equal(
+        "storageKey" in body.document.currentVersion,
+        false,
+        "Upload responses must not expose internal storage keys",
+      );
       documentId = body.document.id as string;
       currentVersionId = body.document.currentVersion.id as string;
     });

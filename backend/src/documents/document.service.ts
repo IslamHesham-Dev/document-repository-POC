@@ -75,7 +75,6 @@ export class DocumentService {
             id: document.currentVersion.id,
             versionNumber: document.currentVersion.versionNumber,
             originalFilename: document.currentVersion.originalFilename,
-            storageKey: document.currentVersion.storageKey,
             mimeType: document.currentVersion.mimeType,
             fileSize: Number(document.currentVersion.fileSize),
             uploadedAt: document.currentVersion.uploadedAt.toISOString(),

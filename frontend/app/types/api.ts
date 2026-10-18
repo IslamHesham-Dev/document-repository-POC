@@ -51,7 +51,7 @@ export type DocumentSummary = {
 export type CreatedDocumentResponse = {
   document: DocumentSummary & {
     permittedDepartments: Array<{ id: string; name: string }>;
-    currentVersion: VersionSummary & { storageKey: string };
+    currentVersion: VersionSummary;
   };
 };
 

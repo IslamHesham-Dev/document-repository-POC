@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import test from "node:test";
 
 import { FileValidationService } from "../documents/file-validation.service.js";
@@ -6,6 +8,7 @@ import { AppError } from "../errors/app-error.js";
 import type { Prisma } from "../generated/prisma/client.js";
 import { PermissionService } from "../permissions/permission.service.js";
 import { DocumentSearchService } from "../search/document-search.service.js";
+import { LocalFileStorage } from "../storage/local-file-storage.service.js";
 import { normalizeTagName } from "../tags/tag.normalizer.js";
 import type { CurrentUser } from "../users/user-context.types.js";
 import { calculateNextVersionNumber } from "../versions/version-number.js";
@@ -111,6 +114,24 @@ test("invalid uploads reject empty, unsupported, and missing-title files", async
     }),
     (error: unknown) =>
       error instanceof AppError && error.code === "INVALID_DOCUMENT_TITLE",
+  );
+});
+
+test("local storage rejects path traversal inputs", async () => {
+  const storage = new LocalFileStorage(join(tmpdir(), "document-storage-test"));
+
+  await assert.rejects(
+    storage.exists("../outside-file"),
+    (error: unknown) =>
+      error instanceof AppError && error.code === "INVALID_STORAGE_KEY",
+  );
+  await assert.rejects(
+    storage.save({
+      content: Buffer.from("safe content"),
+      originalFilename: "../escape.txt",
+    }),
+    (error: unknown) =>
+      error instanceof AppError && error.code === "INVALID_FILENAME",
   );
 });
 
