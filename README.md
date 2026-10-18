@@ -103,7 +103,7 @@ All document endpoints require the `X-User-Id` header. Search supports title, ta
 
 ## Project organization
 
-The backend is feature-first. Each feature contains clear `controllers`, `services`, `repositories`, `types`, and validation or utility folders where required. Controllers handle HTTP, services contain business rules, and repositories contain Prisma database access. The frontend keeps pages small and places shared behavior in components, context, API helpers, and response types.
+The backend is organized by technical layer. Top-level `controllers`, `services`, `repositories`, `types`, `validation`, `routes`, and `utils` directories contain smaller feature folders such as `documents`, `versions`, and `search`. Controllers handle HTTP, services contain business rules, and repositories contain Prisma database access. The frontend keeps pages small and places shared behavior in components, context, API helpers, and response types.
 
 ## Testing
 

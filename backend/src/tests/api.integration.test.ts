@@ -5,7 +5,7 @@ import { randomUUID } from "node:crypto";
 
 import { app } from "../app.js";
 import { prisma } from "../config/prisma.js";
-import { storageService } from "../storage/index.js";
+import { storageService } from "../services/storage/index.js";
 
 test("document repository API integration", async (context) => {
   const marker = randomUUID().slice(0, 8);

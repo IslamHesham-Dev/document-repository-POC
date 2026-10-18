@@ -2,15 +2,15 @@ import cors from "cors";
 import express from "express";
 
 import { env } from "./config/env.js";
-import { documentRouter } from "./documents/document.router.js";
+import { documentRouter } from "./routes/document.router.js";
 import {
   globalErrorHandler,
   notFoundHandler,
 } from "./errors/error.middleware.js";
-import { getHealth } from "./health/health.controller.js";
+import { getHealth } from "./controllers/health/health.controller.js";
 import { loadCurrentUser } from "./middleware/user-context.middleware.js";
-import { getCurrentUser } from "./users/controllers/current-user.controller.js";
-import { getPocContext } from "./users/controllers/poc-context.controller.js";
+import { getCurrentUser } from "./controllers/users/current-user.controller.js";
+import { getPocContext } from "./controllers/users/poc-context.controller.js";
 
 export const app = express();
 

@@ -1,31 +1,45 @@
 # Backend module boundaries
 
-The backend is organized feature-first, with technical classifications inside
-each feature. A feature can contain `controllers`, `services`, `repositories`,
-`types`, `validation`, or `utils` when those responsibilities are needed.
-
-- `controllers/`: HTTP-only work such as reading requests, calling a service,
-  and choosing the response status.
-- `services/`: business rules and workflow coordination. Services do not depend
-  on Express request or response objects.
-- `repositories/`: database queries and persistence only. Repositories do not
-  make HTTP decisions.
-- `types/`: request, response, and internal service contracts kept separate from
-  generated Prisma database models.
-- `validation/`: reusable normalization and validation functions.
-- `utils/`: small pure helpers that do not belong to another layer.
-
-For example:
+The backend uses a layer-first structure. Each top-level technical layer contains
+feature folders such as `documents`, `versions`, `search`, and `users`.
 
 ```text
-documents/
+src/
 ├── controllers/
-├── repositories/
+│   ├── documents/
+│   ├── health/
+│   ├── search/
+│   ├── users/
+│   └── versions/
 ├── services/
+│   ├── documents/
+│   ├── permissions/
+│   ├── search/
+│   ├── storage/
+│   ├── tags/
+│   ├── users/
+│   └── versions/
+├── repositories/
 ├── types/
 ├── validation/
-└── document.router.ts
+├── routes/
+├── utils/
+├── middleware/
+├── config/
+├── errors/
+└── tests/
 ```
+
+- `controllers/`: reads HTTP input, calls services, and sends responses.
+- `services/`: owns business rules and coordinates workflows.
+- `repositories/`: contains Prisma database queries and transactions.
+- `types/`: holds API and service contracts separately from database models.
+- `validation/`: contains reusable validation and normalization functions.
+- `routes/`: connects Express paths and middleware to controllers.
+- `utils/`: contains small pure helpers.
+- `middleware/`: contains reusable Express request middleware.
+- `config/`: loads environment and database configuration.
+- `errors/`: contains shared application errors and error handling.
 
 The initial modules have these responsibilities:
 

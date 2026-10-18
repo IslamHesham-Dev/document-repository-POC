@@ -8,7 +8,7 @@ import { MulterError } from "multer";
 
 import { env } from "../config/env.js";
 import { AppError } from "./app-error.js";
-import type { ApiErrorResponse } from "./api-error.types.js";
+import type { ApiErrorResponse } from "../types/errors/api-error.types.js";
 
 type BodyParserError = SyntaxError & {
   type?: string;

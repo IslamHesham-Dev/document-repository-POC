@@ -3,15 +3,15 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import test from "node:test";
 
-import { FileValidationService } from "../documents/services/file-validation.service.js";
+import { FileValidationService } from "../services/documents/file-validation.service.js";
 import { AppError } from "../errors/app-error.js";
 import type { Prisma } from "../generated/prisma/client.js";
-import { PermissionService } from "../permissions/services/permission.service.js";
-import { DocumentSearchService } from "../search/services/document-search.service.js";
-import { LocalFileStorage } from "../storage/services/local-file-storage.service.js";
-import { normalizeTagName } from "../tags/validation/tag.normalizer.js";
-import type { CurrentUser } from "../users/types/user-context.types.js";
-import { calculateNextVersionNumber } from "../versions/utils/version-number.js";
+import { PermissionService } from "../services/permissions/permission.service.js";
+import { DocumentSearchService } from "../services/search/document-search.service.js";
+import { LocalFileStorage } from "../services/storage/local-file-storage.service.js";
+import { normalizeTagName } from "../validation/tags/tag.normalizer.js";
+import type { CurrentUser } from "../types/users/user-context.types.js";
+import { calculateNextVersionNumber } from "../utils/versions/version-number.js";
 
 const employee: CurrentUser = {
   id: "10000000-0000-4000-8000-000000000001",
