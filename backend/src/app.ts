@@ -9,8 +9,8 @@ import {
 } from "./errors/error.middleware.js";
 import { getHealth } from "./health/health.controller.js";
 import { loadCurrentUser } from "./middleware/user-context.middleware.js";
-import { getCurrentUser } from "./users/current-user.controller.js";
-import { getPocContext } from "./users/poc-context.controller.js";
+import { getCurrentUser } from "./users/controllers/current-user.controller.js";
+import { getPocContext } from "./users/controllers/poc-context.controller.js";
 
 export const app = express();
 

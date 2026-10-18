@@ -1,5 +1,5 @@
-import { LocalFileStorage } from "./local-file-storage.service.js";
-import type { StorageService } from "./storage.service.js";
+import { LocalFileStorage } from "./services/local-file-storage.service.js";
+import type { StorageService } from "./types/storage.service.js";
 
 export const storageService: StorageService = new LocalFileStorage();
 
@@ -7,4 +7,4 @@ export type {
   SaveFileInput,
   StorageService,
   StoredFile,
-} from "./storage.service.js";
+} from "./types/storage.service.js";

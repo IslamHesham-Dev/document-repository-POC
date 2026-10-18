@@ -1,12 +1,31 @@
 # Backend module boundaries
 
-Each feature lives in its own top-level folder and uses these file roles as it grows:
+The backend is organized feature-first, with technical classifications inside
+each feature. A feature can contain `controllers`, `services`, `repositories`,
+`types`, `validation`, or `utils` when those responsibilities are needed.
 
-- `*.controller.ts`: HTTP-only work such as reading requests, calling a service, and choosing the response status.
-- `*.service.ts`: business rules and coordination. Services do not depend on Express request or response objects.
-- `*.repository.ts`: database queries and persistence only. Repositories do not make HTTP decisions.
-- `*.request.ts` and `*.response.ts`: public API contracts used at the HTTP boundary.
-- `*.model.ts`: internal database records. Database models are never used as API request or response contracts.
+- `controllers/`: HTTP-only work such as reading requests, calling a service,
+  and choosing the response status.
+- `services/`: business rules and workflow coordination. Services do not depend
+  on Express request or response objects.
+- `repositories/`: database queries and persistence only. Repositories do not
+  make HTTP decisions.
+- `types/`: request, response, and internal service contracts kept separate from
+  generated Prisma database models.
+- `validation/`: reusable normalization and validation functions.
+- `utils/`: small pure helpers that do not belong to another layer.
+
+For example:
+
+```text
+documents/
+├── controllers/
+├── repositories/
+├── services/
+├── types/
+├── validation/
+└── document.router.ts
+```
 
 The initial modules have these responsibilities:
 

@@ -1,4 +1,4 @@
-import type { CurrentUser } from "./user-context.types.js";
+import type { CurrentUser } from "./types/user-context.types.js";
 
 declare global {
   namespace Express {
