@@ -7,7 +7,10 @@ export function AppShell({ children }: { children: ReactNode }) {
     <div className="min-h-screen">
       <header className="border-b border-slate-200/80 bg-white/90 backdrop-blur">
         <div className="mx-auto flex min-h-16 w-[min(1120px,calc(100%-2rem))] flex-wrap items-center justify-between gap-4 py-3">
-          <Link className="font-extrabold tracking-[-0.03em] text-slate-900" href="/">
+          <Link
+            className="text-2xl font-extrabold leading-none tracking-[-0.04em] text-slate-900 sm:text-3xl"
+            href="/"
+          >
             Doc<span className="text-teal-700">Vault</span>
           </Link>
           <div className="flex flex-wrap items-center justify-end gap-3">

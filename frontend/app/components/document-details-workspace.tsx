@@ -156,7 +156,7 @@ export function DocumentDetailsWorkspace({ documentId }: { documentId: string })
     return (
       <div className="grid gap-4">
         <StatusMessage message={message} tone="error" />
-        <Link className="button w-fit bg-slate-900 text-white hover:bg-slate-700" href="/documents">
+          <Link className="button button-back w-fit" href="/documents">
           Back to document search
         </Link>
       </div>
@@ -169,7 +169,7 @@ export function DocumentDetailsWorkspace({ documentId }: { documentId: string })
 
   return (
     <div className="grid gap-6">
-      <Link className="w-fit text-sm font-bold text-teal-800 hover:text-teal-950" href="/documents">
+      <Link className="button button-back w-fit" href="/documents">
         ← Back to document search
       </Link>
       <section className="card grid gap-5">
