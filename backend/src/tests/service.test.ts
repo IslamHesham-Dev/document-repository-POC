@@ -1,3 +1,5 @@
+// Fast unit-style tests isolate business rules by injecting repository/storage
+// substitutes instead of depending on a running HTTP server or PostgreSQL.
 import assert from "node:assert/strict";
 import { tmpdir } from "node:os";
 import { join } from "node:path";

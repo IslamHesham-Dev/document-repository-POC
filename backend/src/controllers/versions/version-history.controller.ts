@@ -36,6 +36,8 @@ export async function getVersionHistory(
   }
 
   try {
+    // Next: services/versions/version-history.service.ts verifies access before
+    // repositories/versions/version.repository.ts reads immutable history.
     const result = await versionHistoryService.getHistory({
       documentId: request.params.documentId,
       currentUser: request.currentUser,

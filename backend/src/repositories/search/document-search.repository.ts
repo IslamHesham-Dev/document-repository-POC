@@ -30,6 +30,8 @@ function createOrderBy(
 
 export class DocumentSearchRepository {
   public async search(input: SearchDocumentsRecordInput) {
+    // Count and page use the exact same permission-aware where clause, keeping
+    // pagination metadata consistent with the returned rows.
     return prisma.$transaction(async (transaction) => {
       const totalItems = await transaction.document.count({
         where: input.where,

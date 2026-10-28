@@ -1,6 +1,8 @@
 import { prisma } from "../../config/prisma.js";
 
 export class VersionRepository {
+  // Including documentId in the predicate prevents downloading a valid version
+  // through the URL of a different document.
   public findDownloadByDocumentAndVersion(
     documentId: string,
     versionId: string,
@@ -21,6 +23,8 @@ export class VersionRepository {
   }
 
   public findHistoryByDocumentId(documentId: string) {
+    // Storage keys stay private; history returns display metadata and whether
+    // the reverse current-version relation points at each record.
     return prisma.documentVersion.findMany({
       where: { documentId },
       orderBy: { versionNumber: "desc" },

@@ -1,3 +1,5 @@
+// Small operational check used during setup: it proves the configured backend
+// can connect to PostgreSQL independently of browser/API behavior.
 import { prisma } from "../config/prisma.js";
 
 type ConnectionDetails = {

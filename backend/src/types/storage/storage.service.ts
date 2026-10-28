@@ -1,5 +1,7 @@
 import type { Readable } from "node:stream";
 
+// This contract keeps business services independent from local disk. A cloud
+// adapter can implement the same operations without changing those services.
 export type SaveFileInput = {
   content: Buffer | Readable;
   originalFilename: string;

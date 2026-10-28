@@ -1,5 +1,7 @@
 import type { CurrentUser } from "../users/user-context.types.js";
 
+// Contracts between the upload controller, document service, and JSON response.
+// They are deliberately separate from generated Prisma database model types.
 export type CreateDocumentFields = {
   accessScope: "RESTRICTED" | "ALL_DEPARTMENTS";
   permittedDepartmentIds: string[];

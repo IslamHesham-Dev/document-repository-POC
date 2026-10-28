@@ -17,6 +17,7 @@ enum DocumentAccessScope {
   ALL_DEPARTMENTS
 }
 
+/// Organizational unit used both for users and document read permissions.
 model Department {
   id                  String                         @id @default(uuid()) @db.Uuid
   name                String                         @unique
@@ -28,6 +29,7 @@ model Department {
   @@map("departments")
 }
 
+/// Seeded POC identity; in production this would be connected to authentication.
 model User {
   id           String            @id @default(uuid()) @db.Uuid
   name         String
@@ -44,6 +46,7 @@ model User {
   @@map("users")
 }
 
+/// Mutable document metadata plus a pointer to the currently active version.
 model Document {
   id                    String                         @id @default(uuid()) @db.Uuid
   title                 String
@@ -66,6 +69,7 @@ model Document {
   @@map("documents")
 }
 
+/// Immutable metadata for one stored file; previous rows remain downloadable.
 model DocumentVersion {
   id               String    @id @default(uuid()) @db.Uuid
   documentId       String    @map("document_id") @db.Uuid
@@ -86,6 +90,7 @@ model DocumentVersion {
   @@map("document_versions")
 }
 
+/// Canonical reusable label. Names are normalized before reaching this table.
 model Tag {
   id        String        @id @default(uuid()) @db.Uuid
   name      String        @unique
@@ -95,6 +100,7 @@ model Tag {
   @@map("tags")
 }
 
+/// Explicit many-to-many join between documents and tags.
 model DocumentTag {
   documentId String   @map("document_id") @db.Uuid
   document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
@@ -107,6 +113,7 @@ model DocumentTag {
   @@map("document_tags")
 }
 
+/// Explicit many-to-many join granting a department read access to a document.
 model DocumentDepartmentPermission {
   documentId   String     @map("document_id") @db.Uuid
   document     Document   @relation(fields: [documentId], references: [id], onDelete: Cascade)

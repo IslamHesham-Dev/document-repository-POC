@@ -112,6 +112,8 @@ export function DocumentDetailsWorkspace({ documentId }: { documentId: string })
     setError(null);
 
     try {
+      // Details and history are independent reads, so load them concurrently.
+      // Next: app/lib/api.ts attaches X-User-Id to both backend requests.
       const [nextDetails, nextHistory] = await Promise.all([
         getDocument(currentUser.id, documentId),
         getVersionHistory(currentUser.id, documentId),

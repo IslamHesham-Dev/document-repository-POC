@@ -20,6 +20,7 @@ export class DocumentService {
   public async create(
     input: CreateDocumentInput,
   ): Promise<CreatedDocumentResponse> {
+    // Validate bytes and metadata before creating either a file or database row.
     const validatedFile = await this.fileValidationService.validate(
       input.content,
       {
@@ -35,12 +36,16 @@ export class DocumentService {
       ...new Set(input.fields.permittedDepartmentIds),
     ];
 
+    // Next: services/storage/local-file-storage.service.ts writes the immutable
+    // bytes under a generated key; the original name is metadata only.
     const storedFile = await this.storage.save({
       content: validatedFile.content,
       originalFilename: validatedFile.originalFilename,
     });
 
     try {
+      // Next: repositories/documents/document.repository.ts atomically creates
+      // the document, version 1, tags, permissions, and current-version pointer.
       const document =
         await this.documentRepository.createWithInitialVersion({
           title: validatedFile.title,
@@ -84,6 +89,8 @@ export class DocumentService {
         },
       };
     } catch (error: unknown) {
+      // The filesystem cannot join the PostgreSQL transaction, so compensate by
+      // deleting the saved file when metadata creation fails.
       try {
         await this.storage.delete(storedFile.storageKey);
       } catch (cleanupError: unknown) {

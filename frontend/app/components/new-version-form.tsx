@@ -49,6 +49,8 @@ export function NewVersionForm({
     setState({ status: "uploading", progress: 0 });
 
     try {
+      // Next: app/lib/api.ts sends the file to the version endpoint; on success,
+      // the parent detail workspace reloads both details and immutable history.
       const result = await createDocumentVersion(
         { documentId, file, userId: currentUser.id },
         (progress) => setState({ status: "uploading", progress }),

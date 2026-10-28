@@ -32,6 +32,8 @@ export class VersionService {
       );
     }
 
+    // Reading may be department-wide, but modification is intentionally limited
+    // to the original uploader or an administrator.
     await this.permissionService.requireDocumentModification(
       input.uploader,
       input.documentId,
@@ -41,12 +43,15 @@ export class VersionService {
       input.content,
       input.originalFilename,
     );
+    // The old file is never overwritten; every version receives a new key.
     const storedFile = await this.storage.save({
       content: validatedFile.content,
       originalFilename: validatedFile.originalFilename,
     });
 
     try {
+      // Next: repositories/documents/document.repository.ts calculates the next
+      // number and updates currentVersionId inside one transaction.
       const version =
         await this.documentRepository.createVersionAndSetCurrent({
           documentId: input.documentId,
@@ -70,6 +75,7 @@ export class VersionService {
         },
       };
     } catch (error: unknown) {
+      // Compensate for a failed database transaction by removing the new file.
       try {
         await this.storage.delete(storedFile.storageKey);
       } catch (cleanupError: unknown) {

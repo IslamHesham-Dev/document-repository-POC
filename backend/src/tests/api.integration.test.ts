@@ -1,3 +1,5 @@
+// Integration tests exercise the real Express routes, Prisma database access,
+// authorization boundaries, file storage, downloads, and cleanup behavior.
 import assert from "node:assert/strict";
 import type { AddressInfo } from "node:net";
 import test from "node:test";

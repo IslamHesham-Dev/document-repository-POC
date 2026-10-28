@@ -1,6 +1,8 @@
 import { AppError } from "../../errors/app-error.js";
 
 export function normalizeTagName(name: string): string {
+  // Unicode normalization, whitespace folding, and lowercasing produce one
+  // canonical form before the repository applies the unique database key.
   const normalizedName = name
     .normalize("NFKC")
     .trim()

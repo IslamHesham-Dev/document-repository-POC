@@ -74,6 +74,8 @@ export class DocumentRepository {
   }
 
   public createWithInitialVersion(input: CreateDocumentRecordInput) {
+    // This transaction prevents partially-created metadata: either the document,
+    // relationships, version 1, and pointer all succeed, or none are committed.
     return prisma.$transaction(async (transaction) => {
       if (input.permittedDepartmentIds.length > 0) {
         const departments = await transaction.department.findMany({
@@ -170,6 +172,8 @@ export class DocumentRepository {
   }
 
   public createVersionAndSetCurrent(input: CreateDocumentVersionRecordInput) {
+    // Updating the document first serializes competing version uploads for this
+    // document before the next version number is calculated.
     return prisma.$transaction(async (transaction) => {
       const lockedDocuments = await transaction.document.updateMany({
         where: { id: input.documentId, deletedAt: null },
@@ -214,6 +218,8 @@ export class DocumentRepository {
   }
 
   public updateMetadata(input: UpdateDocumentMetadataRecordInput) {
+    // Metadata changes replace tag/department links in one transaction and do
+    // not create a DocumentVersion because the stored file did not change.
     return prisma.$transaction(async (transaction) => {
       if (input.permittedDepartmentIds !== undefined) {
         const departments = await transaction.department.findMany({

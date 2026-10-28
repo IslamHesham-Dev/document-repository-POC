@@ -56,6 +56,8 @@ export function DocumentUploadForm() {
     setSubmission({ status: "submitting", progress: 0 });
 
     try {
+      // Next: app/lib/api.ts converts these values to multipart form data and
+      // sends them to POST /documents with the selected POC identity.
       const result = await createDocument(
         {
           userId: currentUser.id,

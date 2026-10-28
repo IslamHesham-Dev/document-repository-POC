@@ -1,5 +1,6 @@
 services:
   postgres:
+    # The application runs locally while PostgreSQL is isolated in Docker.
     image: postgres:16-alpine
     container_name: document-repository-postgres
     restart: unless-stopped
@@ -10,8 +11,10 @@ services:
     ports:
       - "${POSTGRES_PORT:-5432}:5432"
     volumes:
+      # Named storage keeps database records after container restarts/recreation.
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
+      # Compose reports healthy only after PostgreSQL accepts connections.
       test:
         - CMD-SHELL
         - pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}

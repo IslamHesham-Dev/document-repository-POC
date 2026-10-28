@@ -9,6 +9,8 @@ export function validateDocumentTitle(value: unknown): string {
     );
   }
 
+  // Canonical whitespace avoids visually different duplicates and stores a
+  // clean value regardless of frontend formatting.
   const title = value.trim().replace(/\s+/g, " ");
 
   if (title.length === 0 || title.length > 255) {

@@ -55,3 +55,6 @@ The initial modules have these responsibilities:
 - `errors`: application errors and centralized error handling.
 
 The `health` module is the first implemented example: its controller owns the HTTP response, while its response type is defined separately.
+
+For complete feature-by-feature request paths, continue with
+[`docs/code-walkthrough.md`](../../docs/code-walkthrough.md).

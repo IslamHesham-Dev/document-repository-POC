@@ -1,3 +1,5 @@
+// Public development-only selector data; no password or authentication secret
+// is present because these are seeded demonstration identities.
 export type PocContextResponse = {
   identityMechanism: "POC_X_USER_ID";
   warning: string;

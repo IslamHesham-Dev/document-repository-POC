@@ -37,6 +37,8 @@ export class VersionHistoryService {
       input.documentId,
     );
 
+    // Next: the version repository returns newest first without exposing any
+    // physical storage keys to the response.
     const versions = await this.versionRepository.findHistoryByDocumentId(
       input.documentId,
     );

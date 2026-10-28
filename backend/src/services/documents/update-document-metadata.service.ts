@@ -65,6 +65,8 @@ export class UpdateDocumentMetadataService {
       );
     }
 
+    // Next: repositories/documents/document.repository.ts replaces the relevant
+    // relations atomically. No new file version is created for metadata alone.
     await this.documentRepository.updateMetadata({
       documentId: input.documentId,
       title:
@@ -76,6 +78,8 @@ export class UpdateDocumentMetadataService {
       accessScope,
     });
 
+    // Return the canonical details representation instead of duplicating its
+    // response mapping in this service.
     return this.documentDetailsService.getDetails({
       documentId: input.documentId,
       currentUser: input.currentUser,

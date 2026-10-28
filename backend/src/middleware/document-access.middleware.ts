@@ -8,6 +8,8 @@ const uuidPattern =
 
 const permissionService = new PermissionService();
 
+// Reusable route-level read guard. Most document workflows call the permission
+// service inside their service layer so the rule also applies outside Express.
 export async function requireDocumentAccess(
   request: Request,
   _response: Response,

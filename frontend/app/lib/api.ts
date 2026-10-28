@@ -39,6 +39,8 @@ async function apiRequest<T>(
   userId: string,
   init: RequestInit = {},
 ): Promise<T> {
+  // This is the shared frontend -> backend boundary for JSON requests. The
+  // backend user-context middleware validates this development-only identity.
   const response = await fetch(`${apiBaseUrl}${path}`, {
     ...init,
     headers: {
@@ -135,6 +137,8 @@ export function createDocument(
     JSON.stringify(input.permittedDepartmentIds),
   );
 
+  // XMLHttpRequest is used only for uploads because it exposes progress events;
+  // the request then enters backend routes/document.router.ts.
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest();
     request.open("POST", `${apiBaseUrl}/documents`);

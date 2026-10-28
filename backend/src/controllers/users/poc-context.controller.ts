@@ -11,6 +11,8 @@ export async function getPocContext(
   next: NextFunction,
 ): Promise<void> {
   try {
+    // Next: services/users/poc-context.service.ts labels this identity mechanism
+    // as development-only and obtains seeded choices from its repository.
     response.status(200).json(await service.getContext());
   } catch (error: unknown) {
     next(error);

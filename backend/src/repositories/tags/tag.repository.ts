@@ -2,6 +2,8 @@ import { prisma } from "../../config/prisma.js";
 
 export class TagRepository {
   public async attachToDocument(documentId: string, names: string[]) {
+    // Upsert makes tag creation idempotent; the join table represents the
+    // many-to-many relationship between documents and reusable tags.
     return prisma.$transaction(async (transaction) => {
       const tags: Array<{ id: string; name: string }> = [];
 

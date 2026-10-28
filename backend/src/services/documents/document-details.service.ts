@@ -29,11 +29,15 @@ export class DocumentDetailsService {
       );
     }
 
+    // Reuse the same rule as search, history, and downloads so access decisions
+    // cannot drift between endpoints.
     await this.permissionService.requireDocumentAccess(
       input.currentUser,
       input.documentId,
     );
 
+    // Next: repositories/documents/document.repository.ts loads the permitted
+    // departments, tags, uploader, and current version in one shaped query.
     const document = await this.documentRepository.findDetailsById(
       input.documentId,
     );

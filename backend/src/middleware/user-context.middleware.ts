@@ -52,6 +52,8 @@ export async function loadCurrentUser(
     }
 
     request.currentUser = user;
+    // The selected controller can now rely on a verified currentUser. Document
+    // permissions are still enforced later by the permission service.
     next();
   } catch (error: unknown) {
     next(error);

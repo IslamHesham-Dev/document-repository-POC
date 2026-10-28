@@ -11,6 +11,8 @@ const features = [
 ];
 
 export default function HomePage() {
+  // This server-rendered landing page only links to the two interactive feature
+  // routes; their client components own API calls and state.
   return (
     <main className="page-shell">
       <section className="hero-panel">

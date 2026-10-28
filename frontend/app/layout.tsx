@@ -13,6 +13,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
+  // Every page shares the selected POC user through CurrentUserProvider and the
+  // common navigation/user selector through AppShell.
   return (
     <html lang="en">
       <body>

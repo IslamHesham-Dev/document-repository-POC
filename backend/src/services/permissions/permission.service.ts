@@ -16,6 +16,8 @@ export class PermissionService {
   public getAccessibleDocumentWhere(
     user: CurrentUser,
   ): Prisma.DocumentWhereInput {
+    // Read access: admins see all; employees see their own, organization-wide,
+    // or explicitly department-permitted documents.
     if (user.role === "ADMIN") {
       return {};
     }
@@ -43,6 +45,7 @@ export class PermissionService {
   public getModifiableDocumentWhere(
     user: CurrentUser,
   ): Prisma.DocumentWhereInput {
+    // Write access is deliberately narrower than read access.
     return user.role === "ADMIN" ? {} : { uploaderId: user.id };
   }
 

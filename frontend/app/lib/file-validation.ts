@@ -5,6 +5,8 @@ export const acceptedFileTypes =
 const allowedExtensions = new Set(["pdf", "docx", "txt"]);
 
 export function validateUploadFile(file: File): string | null {
+  // These checks provide immediate feedback only. The backend independently
+  // verifies size, filename, and actual bytes because browser input is untrusted.
   if (file.size === 0) return "Choose a non-empty file.";
   if (file.size > maximumFileSize) return "The file must be 10 MB or smaller.";
   const extension = file.name.split(".").pop()?.toLowerCase() ?? "";

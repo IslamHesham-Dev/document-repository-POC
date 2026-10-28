@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { DevelopmentUserSelector } from "./development-user-selector";
 
+// Shared visual frame for every route. Business/API state remains in the page
+// workspaces and CurrentUserProvider rather than this layout component.
 export function AppShell({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen">

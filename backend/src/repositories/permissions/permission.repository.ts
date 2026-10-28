@@ -6,6 +6,8 @@ export class PermissionRepository {
     documentId: string,
     accessWhere: Prisma.DocumentWhereInput,
   ): Promise<boolean> {
+    // The service supplies either the read or modification predicate; this
+    // repository turns that policy into a minimal existence query.
     const document = await prisma.document.findFirst({
       where: {
         id: documentId,

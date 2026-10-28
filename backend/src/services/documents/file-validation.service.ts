@@ -58,6 +58,7 @@ async function detectMimeType(content: Buffer): Promise<AllowedMimeType> {
     detectedType = undefined;
   }
 
+  // Trust detected bytes, not the browser-provided extension or MIME header.
   if (detectedType && allowedMimeTypes.has(detectedType.mime)) {
     return detectedType.mime as AllowedMimeType;
   }

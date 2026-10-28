@@ -1,5 +1,7 @@
 import type { CurrentUser } from "../users/user-context.types.js";
 
+// Version-history response contains display metadata only and marks the record
+// currently referenced by Document.currentVersionId.
 export type GetVersionHistoryInput = {
   currentUser: CurrentUser;
   documentId: string;

@@ -1,6 +1,8 @@
 import { app } from "./app.js";
 import { env } from "./config/env.js";
 
+// server.ts owns process lifecycle only. Next: app.ts owns the Express request
+// pipeline and routes; keeping them separate also makes app.ts easy to test.
 const server = app.listen(env.backendPort, () => {
   console.log(`Backend listening on http://localhost:${env.backendPort}`);
 });

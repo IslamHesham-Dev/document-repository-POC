@@ -5,6 +5,8 @@ import { DocumentUploadForm } from "@/app/components/document-upload-form";
 export const metadata: Metadata = { title: "Upload" };
 
 export default function UploadPage() {
+  // Next: DocumentUploadForm gathers values, validates for quick feedback, and
+  // passes the multipart workflow to app/lib/api.ts.
   return (
     <main className="page-shell max-w-3xl">
       <p className="eyebrow">New document</p>

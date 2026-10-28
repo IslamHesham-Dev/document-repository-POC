@@ -8,6 +8,8 @@ export class PocContextService {
   ) {}
 
   public async getContext(): Promise<PocContextResponse> {
+    // Next: repositories/users/poc-context.repository.ts reads the seeded users
+    // and departments displayed by the frontend selector.
     const context = await this.repository.getUsersAndDepartments();
 
     return {

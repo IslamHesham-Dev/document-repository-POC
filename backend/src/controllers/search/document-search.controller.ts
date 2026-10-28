@@ -169,6 +169,8 @@ export async function searchDocuments(
   }
 
   try {
+    // Next: services/search/document-search.service.ts combines these validated
+    // filters with the current user's permission filter.
     const result = await searchService.search({
       currentUser: request.currentUser,
       ...parseSearchInput(request),

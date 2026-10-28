@@ -118,6 +118,8 @@ export async function createDocument(
   }
 
   try {
+    // HTTP parsing ends here. Next: services/documents/document.service.ts
+    // validates the file and coordinates storage with the database transaction.
     const result = await documentService.create({
       content: request.file.buffer,
       originalFilename: request.file.originalname,

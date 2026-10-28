@@ -6,6 +6,8 @@ import { defineConfig, env } from "prisma/config";
 
 const backendDirectory = dirname(fileURLToPath(import.meta.url));
 
+// Prisma CLI runs outside the Express process, so it loads the same root .env
+// explicitly for migrations, generation, status checks, and seeding.
 dotenv.config({
   path: resolve(backendDirectory, "..", ".env"),
 });

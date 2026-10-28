@@ -1,5 +1,8 @@
 import { prisma } from "../src/config/prisma.js";
-import { normalizeTagName } from "../src/tags/tag.normalizer.js";
+import { normalizeTagName } from "../src/validation/tags/tag.normalizer.js";
+
+// Idempotent upserts make repeated development seeding safe. These records feed
+// the frontend POC selector and provide predictable permission scenarios.
 
 const departmentNames = ["Engineering", "Human Resources"] as const;
 

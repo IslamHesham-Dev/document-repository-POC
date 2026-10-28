@@ -1,3 +1,5 @@
+// Single backend allowlist used by byte-level file validation. The browser's
+// declared type is not trusted.
 export const ALLOWED_FILE_TYPES = [
   {
     extension: "pdf",

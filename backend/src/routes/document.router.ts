@@ -11,6 +11,8 @@ import { downloadDocumentVersion } from "../controllers/versions/version-downloa
 import { updateDocumentMetadata } from "../controllers/documents/update-document-metadata.controller.js";
 
 const upload = multer({
+  // Multer only parses the multipart request. Content validation and permanent
+  // storage happen later in the document/version service.
   storage: multer.memoryStorage(),
   limits: {
     fileSize: env.maxFileSize,
@@ -22,6 +24,8 @@ const upload = multer({
 
 export const documentRouter = Router();
 
+// Request map: router -> controller -> service -> repository/storage.
+// Start here when tracing any document workflow from its HTTP endpoint.
 documentRouter.get("/", searchDocuments);
 documentRouter.get(
   "/:documentId/versions/:versionId/download",

@@ -58,6 +58,8 @@ export function DocumentSearchWorkspace() {
     const timer = window.setTimeout(() => {
       setIsLoading(true);
       setError(null);
+      // Next: app/lib/api.ts adds X-User-Id and calls the permission-aware
+      // GET /documents backend workflow with these filters and page settings.
       searchDocuments(currentUser.id, query)
         .then((response) => {
           if (active) setResults(response);

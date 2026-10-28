@@ -5,6 +5,7 @@ import { DocumentSearchWorkspace } from "@/app/components/document-search-worksp
 export const metadata: Metadata = { title: "Documents" };
 
 export default function DocumentsPage() {
+  // Next: DocumentSearchWorkspace owns filter state and calls app/lib/api.ts.
   return (
     <main className="page-shell">
       <p className="eyebrow">Repository</p>

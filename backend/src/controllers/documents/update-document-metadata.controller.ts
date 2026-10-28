@@ -124,6 +124,8 @@ export async function updateDocumentMetadata(
   }
 
   try {
+    // Next: services/documents/update-document-metadata.service.ts applies
+    // modification permissions and business rules before repository access.
     const result = await updateService.update({
       documentId: request.params.documentId,
       currentUser: request.currentUser,

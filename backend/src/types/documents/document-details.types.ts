@@ -1,5 +1,6 @@
 import type { CurrentUser } from "../users/user-context.types.js";
 
+// Permission-aware service input and the safe public document-details shape.
 export type GetDocumentDetailsInput = {
   currentUser: CurrentUser;
   documentId: string;

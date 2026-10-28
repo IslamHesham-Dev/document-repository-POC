@@ -1,5 +1,7 @@
 import type { CurrentUser } from "../users/user-context.types.js";
 
+// Contracts passed from the version controller into its orchestration service
+// and returned after the immutable version is committed.
 export type CreateVersionInput = {
   content: Buffer;
   documentId: string;

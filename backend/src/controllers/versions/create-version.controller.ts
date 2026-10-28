@@ -41,6 +41,8 @@ export async function createDocumentVersion(
   }
 
   try {
+    // Next: services/versions/version.service.ts authorizes modification, stores
+    // the replacement bytes, and advances the current-version pointer.
     const result = await versionService.create({
       documentId: request.params.documentId,
       content: request.file.buffer,

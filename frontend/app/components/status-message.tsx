@@ -13,6 +13,8 @@ export function StatusMessage({
   message: string;
   tone?: StatusTone;
 }) {
+  // Errors use alert semantics for immediate announcement; ordinary progress
+  // and success messages use the less disruptive status role.
   return (
     <div
       className={`rounded-xl border px-4 py-3 text-sm leading-6 ${toneClasses[tone]}`}

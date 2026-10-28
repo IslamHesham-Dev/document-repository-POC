@@ -54,6 +54,8 @@ export const globalErrorHandler: ErrorRequestHandler = (
   response: Response<ApiErrorResponse>,
   next: NextFunction,
 ): void => {
+  // Every controller forwards failures here with next(error), keeping response
+  // formatting consistent and hiding internal stack traces from clients.
   if (response.headersSent) {
     next(error);
     return;

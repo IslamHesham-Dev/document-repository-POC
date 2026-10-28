@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+// Shared label/hint wrapper keeps form controls accessible and visually
+// consistent without repeating markup in upload and search forms.
 export function FormField({
   children,
   hint,

@@ -1,5 +1,7 @@
 import type { CurrentUser } from "../users/user-context.types.js";
 
+// Shared search contracts keep validated controller input and formatted service
+// output explicit without leaking Prisma records to the API.
 export const DOCUMENT_SORT_FIELDS = [
   "createdAt",
   "updatedAt",

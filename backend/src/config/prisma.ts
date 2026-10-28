@@ -17,6 +17,8 @@ function createPrismaClient(): PrismaClient {
 
 export const prisma = prismaGlobal.prisma ?? createPrismaClient();
 
+// Reuse the client during development reloads; production creates one process-
+// scoped instance normally. Repositories import this shared connection.
 if (env.nodeEnv !== "production") {
   prismaGlobal.prisma = prisma;
 }

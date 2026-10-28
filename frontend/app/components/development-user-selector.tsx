@@ -2,6 +2,8 @@
 
 import { useCurrentUser } from "@/app/context/current-user-context";
 
+// Changing this selector updates the context; app/lib/api.ts then sends the
+// selected seeded user's ID on future protected requests.
 export function DevelopmentUserSelector() {
   const { currentUser, error, isLoading, selectUser, users } = useCurrentUser();
 

@@ -36,6 +36,8 @@ export async function getDocumentDetails(
   }
 
   try {
+    // Next: services/documents/document-details.service.ts checks authorization
+    // before assembling the API-safe document view.
     const result = await documentDetailsService.getDetails({
       documentId: request.params.documentId,
       currentUser: request.currentUser,

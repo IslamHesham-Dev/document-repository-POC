@@ -9,6 +9,8 @@ export default async function DocumentDetailsPage({
 }: PageProps<"/documents/[id]">) {
   const { id } = await params;
 
+  // The route extracts the dynamic URL parameter; the workspace owns loading,
+  // authorization error states, downloads, and version uploads.
   return (
     <main className="page-shell">
       <DocumentDetailsWorkspace documentId={id} />

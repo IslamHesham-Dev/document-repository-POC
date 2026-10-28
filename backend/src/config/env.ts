@@ -3,6 +3,8 @@ import { dirname, resolve } from "node:path";
 
 import dotenv from "dotenv";
 
+// Configuration is read once at startup so invalid required values fail fast
+// instead of causing a less clear error during a request.
 const environmentFiles = [
   resolve(process.cwd(), ".env"),
   resolve(process.cwd(), "..", ".env"),
@@ -44,6 +46,8 @@ function readRequiredString(name: string): string {
 }
 
 export const env = Object.freeze({
+  // This immutable object is the only environment-variable interface used by
+  // the backend. Other modules import typed, validated values from here.
   nodeEnv: process.env.NODE_ENV ?? "development",
   backendPort: readPositiveInteger("BACKEND_PORT", 3000),
   databaseUrl: readRequiredString("DATABASE_URL"),

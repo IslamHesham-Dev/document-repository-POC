@@ -7,6 +7,8 @@ export class TagService {
   ) {}
 
   public async addToDocument(documentId: string, names: string[]) {
+    // Normalize and deduplicate before repository access so equivalent labels
+    // such as " Finance " and "finance" become one database tag.
     const normalizedNames = [
       ...new Set(names.map((name) => normalizeTagName(name))),
     ];

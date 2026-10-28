@@ -62,6 +62,8 @@ export async function downloadDocumentVersion(
   }
 
   try {
+    // Next: services/versions/version-download.service.ts checks document access,
+    // version ownership, and file existence before returning a stream.
     const download = await versionDownloadService.getDownload({
       documentId: request.params.documentId,
       versionId: request.params.versionId,
@@ -77,6 +79,7 @@ export async function downloadDocumentVersion(
     );
     response.setHeader("X-Content-Type-Options", "nosniff");
 
+    // Streaming keeps memory usage stable even when many users download files.
     await pipeline(download.stream, response);
   } catch (error: unknown) {
     if (response.headersSent) {

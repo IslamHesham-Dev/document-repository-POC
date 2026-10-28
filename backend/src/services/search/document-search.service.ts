@@ -19,6 +19,8 @@ export class DocumentSearchService {
   ): Promise<DocumentSearchResponse> {
     const filters: Prisma.DocumentWhereInput[] = [
       { deletedAt: null },
+      // Authorization is part of the database query, so inaccessible documents
+      // are hidden rather than fetched and filtered in application memory.
       this.permissionService.getAccessibleDocumentWhere(input.currentUser),
     ];
 
@@ -42,6 +44,8 @@ export class DocumentSearchService {
       });
     }
 
+    // Next: repositories/search/document-search.repository.ts applies sorting,
+    // pagination, relation loading, and the count query through Prisma.
     const { documents, totalItems } = await this.searchRepository.search({
       where: { AND: filters },
       page: input.page,

@@ -39,6 +39,8 @@ export class VersionDownloadService {
       input.documentId,
     );
 
+    // Next: repositories/versions/version.repository.ts verifies that this
+    // version belongs to this document; a valid version ID alone is insufficient.
     const version =
       await this.versionRepository.findDownloadByDocumentAndVersion(
         input.documentId,
@@ -61,6 +63,8 @@ export class VersionDownloadService {
       );
     }
 
+    // Next: services/storage/local-file-storage.service.ts resolves only safe,
+    // generated storage keys and opens a read stream.
     return {
       stream: await this.storage.open(version.storageKey),
       originalFilename: version.originalFilename,

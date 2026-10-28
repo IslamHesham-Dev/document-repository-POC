@@ -1,3 +1,5 @@
+// Frontend copies of the public API contracts. These describe network JSON,
+// not React state and not Prisma records, so UI code stays strongly typed.
 export type ApiErrorResponse = {
   error: {
     code: string;

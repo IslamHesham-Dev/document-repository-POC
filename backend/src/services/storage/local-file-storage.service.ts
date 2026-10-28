@@ -51,6 +51,7 @@ export class LocalFileStorage implements StorageService {
   public async save(input: SaveFileInput): Promise<StoredFile> {
     validateOriginalFilename(input.originalFilename);
 
+    // A generated key, rather than the browser filename, controls the path.
     const id = randomUUID();
     const storageKey = `${id.slice(0, 2)}/${id}`;
     const filePath = this.resolveStorageKey(storageKey);
@@ -125,6 +126,8 @@ export class LocalFileStorage implements StorageService {
   }
 
   private resolveStorageKey(storageKey: string): string {
+    // Format validation plus the resolved-path containment check prevents path
+    // traversal on save, open, exists, and delete.
     if (!storageKeyPattern.test(storageKey)) {
       throw new AppError(
         400,

@@ -39,6 +39,8 @@ export function CurrentUserProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let active = true;
 
+    // First frontend step: load seeded identities and departments from the public
+    // POC endpoint. API helpers later send the selected ID as X-User-Id.
     getPocContext()
       .then((context) => {
         if (!active) return;
